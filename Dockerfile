@@ -1,10 +1,15 @@
-FROM python:3.11
+FROM python:3.12
+# Ensure poetry does not create a virtualenv
+ENV POETRY_VIRTUALENVS_CREATE=false
 
-WORKDIR /app
+RUN pip install poetry
+WORKDIR /code
+COPY poetry.lock pyproject.toml /code/
+RUN poetry install --no-interaction --no-ansi --no-root --no-dev
 
-COPY pyproject.toml .
-RUN pip install poetry && poetry install
-RUN pip install fastapi uvicorn
-
-COPY . .
-RUN chmod +x ./entrypoint.sh
+COPY cid /code/cid/
+COPY entrypoint.sh /code/
+COPY import_data.py /code/
+COPY README.md /code/
+RUN chmod +x /code/entrypoint.sh
+CMD ["./entrypoint.sh"]
