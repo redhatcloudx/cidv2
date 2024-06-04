@@ -1,7 +1,13 @@
-from sqlalchemy import Column, Integer, String, Date
-from sqlalchemy.ext.declarative import declarative_base
+"""Database models."""
+
+from sqlalchemy import Column, Date, Integer, String
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
+
+# Avoid ruff getting upset about the id column below.
+# ruff: noqa: A003
+
 
 class Image(Base):
     __tablename__ = "images"
