@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from sqlalchemy import create_engine, desc
+from sqlalchemy import create_engine, desc, func, and_
 from sqlalchemy.orm import sessionmaker
 
 from cid.models import Image
@@ -19,10 +19,47 @@ def read_root() -> dict:
 @app.get("/latest")
 def get_latest_image() -> dict:
     db = SessionLocal()
-    latest_image = (
-        db.query(Image).order_by(desc(Image.version), desc(Image.date)).first()
-    )
-    if latest_image is None:
-        return {"latest_image": None}
+    providers = db.query(Image.provider).distinct().all()
 
-    return {"latest_image": latest_image.name}
+    result = {}
+    for provider in providers:
+        if provider[0] == "aws":
+            result["aws"] = {}
+            regions = (
+              db.query(Image.region)
+              .filter(Image.provider == "aws")
+              .distinct()
+              .all()
+            )
+            latest_image = (
+                db.query(Image)
+                .filter(Image.provider == "aws")
+                .order_by(desc(Image.version), desc(Image.date))
+                .first()
+            )
+            result["aws"][latest_image.name] = {}
+            for region in regions:
+                image = (
+                  db.query(Image)
+                  .filter(and_(
+                    Image.provider == "aws",
+                    Image.region == region[0],
+                    Image.name == latest_image.name
+                  ))
+                  .first()
+                )
+                if image:
+                  result["aws"][image.name][region[0]] = image.imageId
+        else:
+            result[provider[0]] = {}
+            image = (
+                db.query(Image)
+                .filter(Image.provider == provider[0])
+                .order_by(Image.version.desc(), Image.date.desc())
+                .first()
+            )
+            if image:
+                result[provider[0]][image.name] = {}
+                result[provider[0]][image.name] = image.imageId
+
+    return {"latest_image_up": result}
