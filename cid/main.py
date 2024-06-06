@@ -4,9 +4,8 @@ from fastapi import FastAPI, Request
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
 
+from cid.config import DATABASE_URL
 from cid.models import AwsImage
-
-DATABASE_URL = "postgresql://postgres:postgres@db:5432/test_db"
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
