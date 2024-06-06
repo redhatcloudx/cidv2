@@ -1,3 +1,4 @@
+import logging
 from typing import Any, Dict
 
 from fastapi import FastAPI, Request
@@ -6,6 +7,8 @@ from sqlalchemy.orm import sessionmaker
 
 from cid.config import DATABASE_URL
 from cid.models import AwsImage
+
+log = logging.getLogger(__name__)
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
