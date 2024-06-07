@@ -71,6 +71,3 @@ class AzureImage(Base):
     sku = Column(String)
     urn = Column(String)
     version = Column(String)
-
-
-
