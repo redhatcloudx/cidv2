@@ -5,7 +5,7 @@ from typing import Any
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
-from cid.models import AwsImage
+from cid.models import AwsImage, AzureImage, GoogleImage
 
 
 def aws_regions(db: Session) -> list:
@@ -39,4 +39,38 @@ def latest_aws_image(db: Session) -> dict[str, Any]:
         "version": latest_image.version,
         "date": latest_image.date,
         "amis": images,
+    }
+
+
+def latest_azure_image(db: Session) -> dict[str, Any]:
+    """Get the latest RHEL image on Azure."""
+    latest_image = db.query(AzureImage).order_by(desc(AzureImage.version)).first()
+
+    if latest_image is None:
+        return {"error": "No images found", "code": 404}
+
+    return {
+        "sku": latest_image.sku,
+        "offer": latest_image.offer,
+        "version": latest_image.version,
+        "urn": latest_image.urn,
+    }
+
+
+def latest_google_image(db: Session) -> dict:
+    """Get the latest RHEL image on Google Cloud."""
+    latest_image = (
+        db.query(GoogleImage)
+        .order_by(desc(GoogleImage.version), desc(GoogleImage.creationTimestamp))
+        .first()
+    )
+
+    if latest_image is None:
+        return {"error": "No images found", "code": 404}
+
+    return {
+        "name": latest_image.name,
+        "version": latest_image.version,
+        "date": latest_image.creationTimestamp,
+        "selfLink": latest_image.selfLink,
     }

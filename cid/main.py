@@ -2,12 +2,11 @@ import logging
 from typing import Any, Dict, Generator
 
 from fastapi import Depends, FastAPI
-from sqlalchemy import create_engine, desc
+from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from cid import crud
 from cid.config import DATABASE_URL
-from cid.models import AzureImage, GoogleImage
 
 log = logging.getLogger(__name__)
 
@@ -34,37 +33,11 @@ def latest_aws_image(db: Session) -> Dict[str, Any]:
 
 
 def latest_azure_image(db: Session) -> Dict[str, Any]:
-    db = SessionLocal()
-    latest_image = db.query(AzureImage).order_by(desc(AzureImage.version)).first()
-
-    if latest_image is None:
-        return {"error": "No images found", "code": 404}
-
-    return {
-        "sku": latest_image.sku,
-        "offer": latest_image.offer,
-        "version": latest_image.version,
-        "urn": latest_image.urn,
-    }
+    return crud.latest_azure_image(db)
 
 
 def latest_google_image(db: Session) -> Dict[str, Any]:
-    db = SessionLocal()
-    latest_image = (
-        db.query(GoogleImage)
-        .order_by(desc(GoogleImage.version), desc(GoogleImage.creationTimestamp))
-        .first()
-    )
-
-    if latest_image is None:
-        return {"error": "No images found", "code": 404}
-
-    return {
-        "name": latest_image.name,
-        "version": latest_image.version,
-        "date": latest_image.creationTimestamp,
-        "selfLink": latest_image.selfLink,
-    }
+    return crud.latest_google_image(db)
 
 
 @app.get("/latest")
