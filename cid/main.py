@@ -1,9 +1,9 @@
 import logging
-from typing import Any, Dict
+from typing import Any, Dict, Generator
 
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI
 from sqlalchemy import create_engine, desc
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session, sessionmaker
 
 from cid.config import DATABASE_URL
 from cid.models import AwsImage, AzureImage, GoogleImage
@@ -15,13 +15,20 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 app = FastAPI()
 
 
+def get_db() -> Generator:
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
 @app.get("/")
 def read_root() -> dict:
     return {"Hello": "World"}
 
 
-def latest_aws_image(request: Request) -> Dict[str, Any]:
-    db = SessionLocal()
+def latest_aws_image(db: Session) -> Dict[str, Any]:
     regions = db.query(AwsImage.region).distinct().order_by(AwsImage.region).all()
     latest_image = (
         db.query(AwsImage).order_by(desc(AwsImage.version), desc(AwsImage.date)).first()
@@ -48,7 +55,7 @@ def latest_aws_image(request: Request) -> Dict[str, Any]:
     }
 
 
-def latest_azure_image(request: Request) -> Dict[str, Any]:
+def latest_azure_image(db: Session) -> Dict[str, Any]:
     db = SessionLocal()
     latest_image = db.query(AzureImage).order_by(desc(AzureImage.version)).first()
 
@@ -63,7 +70,7 @@ def latest_azure_image(request: Request) -> Dict[str, Any]:
     }
 
 
-def latest_google_image(request: Request) -> Dict[str, Any]:
+def latest_google_image(db: Session) -> Dict[str, Any]:
     db = SessionLocal()
     latest_image = (
         db.query(GoogleImage)
@@ -83,9 +90,9 @@ def latest_google_image(request: Request) -> Dict[str, Any]:
 
 
 @app.get("/latest")
-def latest(request: Request) -> Dict[str, Any]:
+def latest(db: Session = Depends(get_db)) -> Dict[str, Any]:  # noqa: B008
     return {
-        "latest_aws_image": latest_aws_image(request),
-        "latest_azure_image": latest_azure_image(request),
-        "latest_google_image": latest_google_image(request),
+        "latest_aws_image": latest_aws_image(db),
+        "latest_azure_image": latest_azure_image(db),
+        "latest_google_image": latest_google_image(db),
     }
