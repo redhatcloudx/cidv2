@@ -1,9 +1,8 @@
 """Database models."""
 
 from sqlalchemy import JSON, Boolean, Column, DateTime, Integer, String
-from sqlalchemy.orm import declarative_base
 
-Base = declarative_base()
+from cid.database import Base
 
 # Avoid ruff getting upset about the id column below.
 # ruff: noqa: A003

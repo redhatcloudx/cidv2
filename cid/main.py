@@ -5,8 +5,9 @@ from fastapi import Depends, FastAPI
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import Session, sessionmaker
 
+from cid import crud
 from cid.config import DATABASE_URL
-from cid.models import AwsImage, AzureImage, GoogleImage
+from cid.models import AzureImage, GoogleImage
 
 log = logging.getLogger(__name__)
 
@@ -29,30 +30,7 @@ def read_root() -> dict:
 
 
 def latest_aws_image(db: Session) -> Dict[str, Any]:
-    regions = db.query(AwsImage.region).distinct().order_by(AwsImage.region).all()
-    latest_image = (
-        db.query(AwsImage).order_by(desc(AwsImage.version), desc(AwsImage.date)).first()
-    )
-
-    if latest_image is None:
-        return {"error": "No images found", "code": 404}
-
-    images = {}
-    for region in regions:
-        region_image = (
-            db.query(AwsImage)
-            .filter(AwsImage.region == region[0], AwsImage.name == latest_image.name)
-            .first()
-        )
-        if region_image is not None:
-            images[region[0]] = region_image.imageId
-
-    return {
-        "name": latest_image.name,
-        "version": latest_image.version,
-        "date": latest_image.date,
-        "amis": images,
-    }
+    return crud.latest_aws_image(db)
 
 
 def latest_azure_image(db: Session) -> Dict[str, Any]:
