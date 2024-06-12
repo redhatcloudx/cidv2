@@ -150,3 +150,20 @@ def test_import_google_images(db):
     # curl https://cloudx-json-bucket.s3.amazonaws.com/raw/aws/aws.json |jq ".[0:10]" > tests/data/aws.json
     assert db.query(GoogleImage).count() == len(images)
     assert db.query(GoogleImage).first().id == images[0]["id"]
+
+
+def test_find_matching_ami(db):
+    # Simulate the same image across two regions with different AMI IDs.
+    images = [
+        AwsImage(id="ami-a", imageId="ami-a", name="IMAGE01", region="us-east-1"),
+        AwsImage(id="ami-b", imageId="ami-b", name="IMAGE01", region="us-east-2"),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.find_matching_ami(db, "ami-a")
+    assert result["ami"] == "ami-a"
+    assert result["matching_images"] == [
+        {"region": "us-east-1", "ami": "ami-a"},
+        {"region": "us-east-2", "ami": "ami-b"},
+    ]

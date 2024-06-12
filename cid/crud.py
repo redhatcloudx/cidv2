@@ -224,3 +224,37 @@ def update_image_data(db: Session) -> None:
                 raise InvalidCloudProvider(cloud)
 
     logger.info("🎉 Image data updated successfully")
+
+
+def find_matching_ami(db: Session, image_id: str) -> dict:
+    """Given a single AMI, find matching AMIs in other regions.
+
+    Args:
+        db (Session): database session
+        image_id (str): AMI ID to search
+
+    Returns:
+        dict: basic information about the image with matching AMIs
+    """
+    # Get the image record for the AMI we were given.
+    image = db.query(AwsImage).filter(AwsImage.imageId == image_id).first()
+
+    if image is None:
+        return {"error": "No images found", "code": 404}
+
+    # Use the name to find matching images in other regions.
+    matching_images = (
+        db.query(AwsImage.imageId, AwsImage.region)
+        .filter(AwsImage.name == image.name)
+        .all()
+    )
+
+    return {
+        "ami": image.imageId,
+        "name": image.name,
+        "version": image.version,
+        "region": image.region,
+        "matching_images": [
+            {"region": region, "ami": imageId} for imageId, region in matching_images
+        ],
+    }
