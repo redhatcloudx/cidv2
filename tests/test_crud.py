@@ -9,7 +9,6 @@ from cid.models import AwsImage, AzureImage, GoogleImage
 
 def test_latest_aws_image_no_images(db):
     result = crud.latest_aws_image(db)
-    print(result)
     assert result == {"error": "No images found", "code": 404}
 
 
@@ -38,7 +37,6 @@ def test_latest_aws_image(db):
     db.commit()
 
     result = crud.latest_aws_image(db)
-    print(result)
     assert result["name"] == "test_image_2"
     assert result["amis"] == {"us-west-1": "ami-b"}
 
