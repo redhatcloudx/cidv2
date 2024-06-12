@@ -140,3 +140,15 @@ def test_import_azure_images(db):
     # curl https://cloudx-json-bucket.s3.amazonaws.com/raw/aws/aws.json |jq ".[0:10]" > tests/data/aws.json
     assert db.query(AzureImage).count() == len(images)
     assert db.query(AzureImage).first().urn == images[0]["urn"]
+
+
+def test_import_google_images(db):
+    with open("tests/data/google.json") as fileh:
+        images = json.load(fileh)
+
+    crud.import_google_images(db, images)
+
+    # The test data contains the first 10 results from a recent AWS API call.
+    # curl https://cloudx-json-bucket.s3.amazonaws.com/raw/aws/aws.json |jq ".[0:10]" > tests/data/aws.json
+    assert db.query(GoogleImage).count() == len(images)
+    assert db.query(GoogleImage).first().id == images[0]["id"]
