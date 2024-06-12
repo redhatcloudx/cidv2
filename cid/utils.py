@@ -2,8 +2,11 @@
 
 import logging
 import re
+from time import sleep
 
 import httpx
+from sqlalchemy import text
+from sqlalchemy.orm import Session
 
 from cid.config import AWS_IMAGE_DATA, AZURE_IMAGE_DATA, GCP_IMAGE_DATA
 
@@ -23,7 +26,7 @@ def get_json_data(cloud_provider: str) -> list[dict]:
             data_url = AWS_IMAGE_DATA
         case "azure":
             data_url = AZURE_IMAGE_DATA
-        case "gcp":
+        case "google":
             data_url = GCP_IMAGE_DATA
         case _:
             raise InvalidCloudProvider(cloud_provider)
@@ -41,3 +44,16 @@ def extract_google_version(image_name: str) -> str:
     """Extract the RHEL version from a Google image name."""
     match = re.findall(r"rhel-(\d{1,2}(?:-arm64)*)", image_name)
     return str(match[0].replace("-", ".")) if match else ""
+
+
+def wait_for_database(db: Session) -> None:
+    """Wait for the database to be ready."""
+    test_query = text("SELECT 1")
+    while True:
+        try:
+            db.execute(test_query)
+            logger.info("Database is ready!")
+            break
+        except Exception:
+            logger.exception("Database not ready yet")
+            sleep(1)
