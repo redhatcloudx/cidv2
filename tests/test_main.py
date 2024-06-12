@@ -1,12 +1,10 @@
 """Tests for the main module."""
 
-from datetime import datetime
+from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
-from cid.database import SessionLocal, engine
-from cid.main import app, latest_aws_image
-from cid.models import AwsImage
+from cid.main import app
 
 # Create a TestClient instance to test the FastAPI app
 # https://fastapi.tiangolo.com/tutorial/testing/
@@ -20,27 +18,46 @@ def test_read_root():
     assert response.json() == {"Hello": "World"}
 
 
-def test_latest_aws_image():
-    AwsImage.metadata.create_all(bind=engine)
-
-    db = SessionLocal()
-    aws_image = AwsImage(
-        id="ami-12345678",
-        name="test_image",
-        version="1.0",
-        # SQLite only supports datetime objects
-        date=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
-        region="us-west-1",
-        imageId="ami-12345678",
-    )
-    db.add(aws_image)
-    db.commit()
-
-    response = latest_aws_image(db)
-
-    assert response == {
+@patch("cid.crud.latest_aws_image")
+@patch("cid.crud.latest_azure_image")
+@patch("cid.crud.latest_google_image")
+def test_latest_image(mock_google, mock_azure, mock_aws):
+    mock_aws.return_value = {
         "name": "test_image",
         "version": "1.0",
-        "date": datetime(2022, 1, 1, 0, 0),
+        "date": "2022-01-01",
         "amis": {"us-west-1": "ami-12345678"},
     }
+    mock_azure.return_value = {
+        "sku": "sku-a",
+        "offer": "offer-a",
+        "version": "2.0",
+        "urn": "urn-b",
+    }
+    mock_google.return_value = {
+        "name": "test_image",
+        "version": "1.0",
+        "date": "2022-01-01",
+        "selfLink": "https://www.example.com",
+    }
+
+    response = client.get("/latest")
+    result = response.json()
+
+    assert result.keys() == {
+        "latest_aws_image",
+        "latest_azure_image",
+        "latest_google_image",
+    }
+    assert result["latest_aws_image"]["name"] == "test_image"
+    assert result["latest_azure_image"]["sku"] == "sku-a"
+    assert result["latest_google_image"]["name"] == "test_image"
+
+
+@patch("cid.crud.find_available_versions")
+def test_versions(mock_versions):
+    mock_versions.return_value = ["8.9.0", "9.2.0", "10.0.0"]
+
+    response = client.get("/versions")
+    assert response.status_code == 200
+    assert response.json() == ["8.9.0", "9.2.0", "10.0.0"]
