@@ -1400,6 +1400,19 @@ pygments = ">=2.13.0,<3.0.0"
 jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
+name = "schedule"
+version = "1.2.2"
+description = "Job scheduling for humans."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "schedule-1.2.2-py3-none-any.whl", hash = "sha256:5bef4a2a0183abf44046ae0d164cadcac21b1db011bdd8102e4a0c1e91e06a7d"},
+]
+
+[package.extras]
+timezone = ["pytz"]
+
+[[package]]
 name = "shellingham"
 version = "1.5.4"
 description = "Tool to Detect Surrounding Shell"
@@ -2019,4 +2032,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.12,<4.0"
-content-hash = "e4be23972b024df122a249bd0ed419c18846ce7d3967bd485473f98a76e13f8e"
+content-hash = "733cc9650f9d80e945f4b6f6ab8f20889ef57b0c825109fa66cc9b1b657fb425"
