@@ -125,3 +125,25 @@ def import_aws_images(db: Session, images: list) -> None:
 
     db.add_all(import_queue)
     db.commit()
+
+
+def import_azure_images(db: Session, images: list) -> None:
+    """Take a list of Azure images and add them to the database."""
+    import_queue = []
+
+    for image in images:
+        image_obj = AzureImage(
+            id=image.get("urn"),
+            architecture=image.get("architecture"),
+            offer=image.get("offer"),
+            publisher=image.get("publisher"),
+            sku=image.get("sku"),
+            urn=image.get("urn"),
+            version=image.get("version"),
+        )
+        import_queue.append(image_obj)
+
+    logger.info("Adding %s Azure images to the database", len(import_queue))
+
+    db.add_all(import_queue)
+    db.commit()
