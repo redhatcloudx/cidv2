@@ -8,7 +8,7 @@ import httpx
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from cid.config import AWS_IMAGE_DATA, AZURE_IMAGE_DATA, GCP_IMAGE_DATA
+from cid.config import AWS_IMAGE_DATA, AZURE_IMAGE_DATA, GOOGLE_IMAGE_DATA
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ def get_json_data(cloud_provider: str) -> list[dict]:
         case "azure":
             data_url = AZURE_IMAGE_DATA
         case "google":
-            data_url = GCP_IMAGE_DATA
+            data_url = GOOGLE_IMAGE_DATA
         case _:
             raise InvalidCloudProvider(cloud_provider)
     response = httpx.get(data_url)

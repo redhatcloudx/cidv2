@@ -3,7 +3,7 @@
 import pytest
 
 from cid import utils
-from cid.config import AWS_IMAGE_DATA, AZURE_IMAGE_DATA, GCP_IMAGE_DATA
+from cid.config import AWS_IMAGE_DATA, AZURE_IMAGE_DATA, GOOGLE_IMAGE_DATA
 
 AWS_IMAGES = [
     ("RHEL-9.2.0_HVM-20231115-arm64-23-Hourly2-GP3", "9.2.0"),
@@ -31,13 +31,13 @@ def test_get_json_data(httpx_mock):
         json=[{"cloud": "azure"}],
     )
     httpx_mock.add_response(
-        url=GCP_IMAGE_DATA,
-        json=[{"cloud": "gcp"}],
+        url=GOOGLE_IMAGE_DATA,
+        json=[{"cloud": "google"}],
     )
 
     assert utils.get_json_data("aws")[0] == {"cloud": "aws"}
     assert utils.get_json_data("azure")[0] == {"cloud": "azure"}
-    assert utils.get_json_data("gcp")[0] == {"cloud": "gcp"}
+    assert utils.get_json_data("google")[0] == {"cloud": "google"}
 
     with pytest.raises(utils.InvalidCloudProvider):
         utils.get_json_data("Gewitter")
