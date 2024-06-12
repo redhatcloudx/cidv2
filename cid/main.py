@@ -2,16 +2,13 @@ import logging
 from typing import Any, Dict, Generator
 
 from fastapi import Depends, FastAPI
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import Session
 
 from cid import crud
-from cid.config import DATABASE_URL
+from cid.database import SessionLocal
 
 log = logging.getLogger(__name__)
 
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 app = FastAPI()
 
 
