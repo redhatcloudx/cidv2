@@ -7,8 +7,15 @@ import dateparser
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
+from cid.config import CLOUD_PROVIDERS
+from cid.database import engine
 from cid.models import AwsImage, AzureImage, GoogleImage
-from cid.utils import extract_aws_version, extract_google_version
+from cid.utils import (
+    InvalidCloudProvider,
+    extract_aws_version,
+    extract_google_version,
+    get_json_data,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -186,3 +193,34 @@ def import_google_images(db: Session, images: list) -> None:
 
     db.add_all(import_queue)
     db.commit()
+
+
+def update_image_data(db: Session) -> None:
+    """Update image data from all cloud providers."""
+
+    # Ensure all tables are created. This is skipped if the tables exist.
+    AwsImage.metadata.create_all(bind=engine)
+    AzureImage.metadata.create_all(bind=engine)
+    GoogleImage.metadata.create_all(bind=engine)
+
+    # Truncate all tables before importing new data.
+    db.query(AwsImage).delete()
+    db.query(AzureImage).delete()
+    db.query(GoogleImage).delete()
+
+    for cloud in CLOUD_PROVIDERS:
+        logger.info("⬇️ Downloading cloud image data for %s", cloud)
+        data = get_json_data(cloud)
+
+        logger.info("🔄 Updating database with new cloud image data for %s", cloud)
+        match cloud:
+            case "aws":
+                import_aws_images(db, data)
+            case "azure":
+                import_azure_images(db, data)
+            case "google":
+                import_google_images(db, data)
+            case _:
+                raise InvalidCloudProvider(cloud)
+
+    logger.info("🎉 Image data updated successfully")
