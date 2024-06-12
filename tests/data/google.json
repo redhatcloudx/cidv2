@@ -1,0 +1,166 @@
+[
+    {
+        "architecture": "X86_64",
+        "archiveSizeBytes": "5435643648",
+        "creationTimestamp": "2024-06-11T13:15:11.392-07:00",
+        "description": "Red Hat, Red Hat Enterprise Linux, 7, x86_64 built on 20240611",
+        "diskSizeGb": "20",
+        "family": "rhel-7",
+        "guestOsFeatures": [
+            {
+                "type": "UEFI_COMPATIBLE"
+            },
+            {
+                "type": "GVNIC"
+            }
+        ],
+        "id": "7760474653877145249",
+        "kind": "compute#image",
+        "labelFingerprint": "42WmSpB8rSM=",
+        "licenseCodes": ["1000006"],
+        "licenses": [
+            "https://www.googleapis.com/compute/v1/projects/rhel-cloud/global/licenses/rhel-7-server"
+        ],
+        "name": "rhel-7-v20240611",
+        "rawDisk": {
+            "containerType": "TAR",
+            "source": ""
+        },
+        "selfLink": "https://www.googleapis.com/compute/v1/projects/rhel-cloud/global/images/rhel-7-v20240611",
+        "sourceType": "RAW",
+        "status": "READY",
+        "storageLocations": ["eu", "asia", "us"]
+    },
+    {
+        "architecture": "X86_64",
+        "archiveSizeBytes": "8018853120",
+        "creationTimestamp": "2024-06-11T14:08:20.111-07:00",
+        "description": "Red Hat, Red Hat Enterprise Linux, 8, x86_64 built on 20240611",
+        "diskSizeGb": "20",
+        "family": "rhel-8",
+        "guestOsFeatures": [
+            {
+                "type": "UEFI_COMPATIBLE"
+            },
+            {
+                "type": "VIRTIO_SCSI_MULTIQUEUE"
+            },
+            {
+                "type": "SEV_CAPABLE"
+            },
+            {
+                "type": "SEV_SNP_CAPABLE"
+            },
+            {
+                "type": "SEV_LIVE_MIGRATABLE"
+            },
+            {
+                "type": "SEV_LIVE_MIGRATABLE_V2"
+            },
+            {
+                "type": "GVNIC"
+            },
+            {
+                "type": "IDPF"
+            }
+        ],
+        "id": "876897986956034604",
+        "kind": "compute#image",
+        "labelFingerprint": "42WmSpB8rSM=",
+        "licenseCodes": ["601259152637613565"],
+        "licenses": [
+            "https://www.googleapis.com/compute/v1/projects/rhel-cloud/global/licenses/rhel-8-server"
+        ],
+        "name": "rhel-8-v20240611",
+        "rawDisk": {
+            "containerType": "TAR",
+            "source": ""
+        },
+        "selfLink": "https://www.googleapis.com/compute/v1/projects/rhel-cloud/global/images/rhel-8-v20240611",
+        "sourceType": "RAW",
+        "status": "READY",
+        "storageLocations": ["asia", "eu", "us"]
+    },
+    {
+        "architecture": "ARM64",
+        "archiveSizeBytes": "5243328768",
+        "creationTimestamp": "2024-06-11T13:38:00.035-07:00",
+        "description": "Red Hat, Red Hat Enterprise Linux, 9, aarch64 built on 20240611",
+        "diskSizeGb": "20",
+        "family": "rhel-9-arm64",
+        "guestOsFeatures": [
+            {
+                "type": "UEFI_COMPATIBLE"
+            },
+            {
+                "type": "GVNIC"
+            }
+        ],
+        "id": "5203690002776918856",
+        "kind": "compute#image",
+        "labelFingerprint": "42WmSpB8rSM=",
+        "licenseCodes": ["7883559014960410759"],
+        "licenses": [
+            "https://www.googleapis.com/compute/v1/projects/rhel-cloud/global/licenses/rhel-9-server"
+        ],
+        "name": "rhel-9-arm64-v20240611",
+        "rawDisk": {
+            "containerType": "TAR",
+            "source": ""
+        },
+        "selfLink": "https://www.googleapis.com/compute/v1/projects/rhel-cloud/global/images/rhel-9-arm64-v20240611",
+        "sourceType": "RAW",
+        "status": "READY",
+        "storageLocations": ["asia", "eu", "us"]
+    },
+    {
+        "architecture": "X86_64",
+        "archiveSizeBytes": "6430864128",
+        "creationTimestamp": "2024-06-11T13:33:35.210-07:00",
+        "description": "Red Hat, Red Hat Enterprise Linux, 9, x86_64 built on 20240611",
+        "diskSizeGb": "20",
+        "family": "rhel-9",
+        "guestOsFeatures": [
+            {
+                "type": "UEFI_COMPATIBLE"
+            },
+            {
+                "type": "VIRTIO_SCSI_MULTIQUEUE"
+            },
+            {
+                "type": "SEV_CAPABLE"
+            },
+            {
+                "type": "SEV_SNP_CAPABLE"
+            },
+            {
+                "type": "SEV_LIVE_MIGRATABLE"
+            },
+            {
+                "type": "SEV_LIVE_MIGRATABLE_V2"
+            },
+            {
+                "type": "GVNIC"
+            },
+            {
+                "type": "IDPF"
+            }
+        ],
+        "id": "5509848465775331953",
+        "kind": "compute#image",
+        "labelFingerprint": "42WmSpB8rSM=",
+        "licenseCodes": ["7883559014960410759"],
+        "licenses": [
+            "https://www.googleapis.com/compute/v1/projects/rhel-cloud/global/licenses/rhel-9-server"
+        ],
+        "name": "rhel-9-v20240611",
+        "rawDisk": {
+            "containerType": "TAR",
+            "source": ""
+        },
+        "selfLink": "https://www.googleapis.com/compute/v1/projects/rhel-cloud/global/images/rhel-9-v20240611",
+        "sourceType": "RAW",
+        "status": "READY",
+        "storageLocations": ["eu", "asia", "us"]
+    }
+]

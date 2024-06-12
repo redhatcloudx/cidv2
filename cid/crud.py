@@ -8,7 +8,7 @@ from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
 from cid.models import AwsImage, AzureImage, GoogleImage
-from cid.utils import extract_aws_version
+from cid.utils import extract_aws_version, extract_google_version
 
 logger = logging.getLogger(__name__)
 
@@ -144,6 +144,45 @@ def import_azure_images(db: Session, images: list) -> None:
         import_queue.append(image_obj)
 
     logger.info("Adding %s Azure images to the database", len(import_queue))
+
+    db.add_all(import_queue)
+    db.commit()
+
+
+def import_google_images(db: Session, images: list) -> None:
+    """Take a list of Google images and add them to the database."""
+    import_queue = []
+
+    for image in images:
+        # sqlite requires dates to be in Python's datetime format.
+        creation_timestamp = dateparser.parse(image.get("creationTimestamp"))
+
+        # Extract the RHEL version number from the image name.
+        image_name = extract_google_version(image.get("name"))
+
+        image_obj = GoogleImage(
+            id=image.get("id"),
+            name=image.get("name"),
+            arch=image.get("architecture"),
+            version=image_name,
+            creationTimestamp=creation_timestamp,
+            description=image.get("description"),
+            diskSizeGb=image.get("diskSizeGb"),
+            family=image.get("family"),
+            guestOsFeatures=image.get("guestOsFeatures"),
+            kind=image.get("kind"),
+            labelFingerprint=image.get("labelFingerprint"),
+            licenseCodes=image.get("licenseCodes"),
+            licenses=image.get("licenses"),
+            rawDisk=image.get("rawDisk"),
+            selfLink=image.get("selfLink"),
+            sourceType=image.get("sourceType"),
+            status=image.get("status"),
+            storageLocations=image.get("storageLocations"),
+        )
+        import_queue.append(image_obj)
+
+    logger.info("Adding %s Google images to the database", len(import_queue))
 
     db.add_all(import_queue)
     db.commit()
