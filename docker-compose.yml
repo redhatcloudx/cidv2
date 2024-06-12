@@ -6,6 +6,8 @@ services:
     command: ["./entrypoint.sh"]
     ports:
       - 8000:80
+    environment:
+      ENVIRONMENT: production
     depends_on:
       - db
 
