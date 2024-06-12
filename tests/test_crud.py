@@ -167,3 +167,18 @@ def test_find_matching_ami(db):
         {"region": "us-east-1", "ami": "ami-a"},
         {"region": "us-east-2", "ami": "ami-b"},
     ]
+
+
+def test_find_available_versions(db):
+    images = [
+        AwsImage(id="ami-a", version="8.2.0"),
+        AwsImage(id="ami-b", version="7.9.0"),
+        AwsImage(id="ami-c", version="9.5.0"),
+        AwsImage(id="ami-d", version="10.0.0"),
+        AwsImage(id="ami-e", version="9.5.0"),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.find_available_versions(db)
+    assert result == ["10.0.0", "9.5.0", "8.2.0", "7.9.0"]

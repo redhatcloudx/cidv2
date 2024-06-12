@@ -4,6 +4,7 @@ import logging
 from typing import Any
 
 import dateparser
+from packaging.version import Version
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
@@ -258,3 +259,22 @@ def find_matching_ami(db: Session, image_id: str) -> dict:
             {"region": region, "ami": imageId} for imageId, region in matching_images
         ],
     }
+
+
+def find_available_versions(db: Session) -> list:
+    """Return all RHEL versions available from AWS.
+
+    It would be good to add the other providers later, but this data is so much easier
+    to gather on AWS right now.
+
+    Args:
+        db (Session): database session name
+        (str): image name to search
+
+    Returns:
+        list: list of available versions
+    """
+    # Get all images with the given name.
+    versions = [x.version for x in db.query(AwsImage.version).distinct()]
+
+    return sorted(versions, key=Version, reverse=True)
