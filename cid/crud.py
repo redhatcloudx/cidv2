@@ -1,11 +1,16 @@
 """Create, replace, update, and delete functions for the CID database."""
 
+import logging
 from typing import Any
 
+import dateparser
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
 from cid.models import AwsImage, AzureImage, GoogleImage
+from cid.utils import extract_aws_version
+
+logger = logging.getLogger(__name__)
 
 
 def aws_regions(db: Session) -> list:
@@ -74,3 +79,49 @@ def latest_google_image(db: Session) -> dict:
         "date": latest_image.creationTimestamp,
         "selfLink": latest_image.selfLink,
     }
+
+
+def import_aws_images(db: Session, images: list) -> None:
+    """Take a list of AWS images and add them to the database."""
+    import_queue = []
+
+    for image in images:
+        # sqlite requires dates to be in Python's datetime format.
+        creation_date = dateparser.parse(image.get("CreationDate"))
+        deprecation_time = dateparser.parse(image.get("DeprecationTime"))
+
+        # Extract the RHEL version number from the image name.
+        image_name = extract_aws_version(image.get("Name"))
+
+        image_obj = AwsImage(
+            id=image.get("ImageId"),
+            name=image.get("Name"),
+            arch=image.get("Architecture"),
+            version=image_name,
+            imageId=image.get("ImageId"),
+            date=creation_date,
+            virt=image.get("VirtualizationType"),
+            provider=image.get("ImageOwnerAlias"),
+            region=image.get("Region"),
+            imageLocation=image.get("ImageLocation"),
+            imageType=image.get("ImageType"),
+            public=image.get("Public"),
+            ownerId=image.get("OwnerId"),
+            platformDetails=image.get("PlatformDetails"),
+            usageOperation=image.get("UsageOperation"),
+            state=image.get("State"),
+            blockDeviceMappings=image.get("BlockDeviceMappings"),
+            description=image.get("Description"),
+            enaSupport=image.get("EnaSupport"),
+            hypervisor=image.get("Hypervisor"),
+            rootDeviceName=image.get("RootDeviceName"),
+            rootDeviceType=image.get("RootDeviceType"),
+            sriovNetSupport=image.get("SriovNetSupport"),
+            deprecationTime=deprecation_time,
+        )
+        import_queue.append(image_obj)
+
+    logger.info("Adding %s AWS images to the database", len(import_queue))
+
+    db.add_all(import_queue)
+    db.commit()
