@@ -8,6 +8,7 @@ from schedule import every, repeat, run_all, run_pending
 from sqlalchemy.orm import Session
 
 from cid import crud
+from cid.config import ENVIRONMENT
 from cid.database import SessionLocal
 from cid.utils import wait_for_database
 
@@ -67,5 +68,7 @@ def run_schedule() -> None:
 
 
 # Run the schedule in a separate thread
-schedule_thread = threading.Thread(target=run_schedule)
-schedule_thread.start()
+# NOTE(major): Pytest runs this code for some reason. This is a workaround.
+if ENVIRONMENT != "testing":
+    schedule_thread = threading.Thread(target=run_schedule)
+    schedule_thread.start()
