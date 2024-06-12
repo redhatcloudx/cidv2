@@ -51,7 +51,7 @@ def latest(db: Session = Depends(get_db)) -> Dict[str, Any]:  # noqa: B008
     }
 
 
-@repeat(every(10).minutes)
+@repeat(every(24).hours)
 def self_update_image_data() -> None:
     """Update the database with new image data."""
     db = SessionLocal()
