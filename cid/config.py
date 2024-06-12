@@ -17,3 +17,6 @@ IMAGE_DATA_BASE_URL = "https://cloudx-json-bucket.s3.amazonaws.com/raw"
 AWS_IMAGE_DATA = f"{IMAGE_DATA_BASE_URL}/aws/aws.json"
 AZURE_IMAGE_DATA = f"{IMAGE_DATA_BASE_URL}/azure/eastus.json"
 GCP_IMAGE_DATA = f"{IMAGE_DATA_BASE_URL}/google/global.json"
+
+# Supported cloud providers.
+CLOUD_PROVIDERS = ["aws", "azure", "google"]
