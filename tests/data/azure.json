@@ -1,0 +1,1218 @@
+[
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel7",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel7:7.9.2021110401",
+        "version": "7.9.2021110401"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel7",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel7:7.9.2023062711",
+        "version": "7.9.2023062711"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel7",
+        "urn": "redhat-limited:rh-rhel:rh-rhel7:7.9.2022011200",
+        "version": "7.9.2022011200"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel7",
+        "urn": "redhat-limited:rh-rhel:rh-rhel7:7.9.2022080301",
+        "version": "7.9.2022080301"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel7",
+        "urn": "redhat-limited:rh-rhel:rh-rhel7:7.9.2023042712",
+        "version": "7.9.2023042712"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel7",
+        "urn": "redhat-limited:rh-rhel:rh-rhel7:7.9.2023090617",
+        "version": "7.9.2023090617"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel7-gen1",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel7-gen1:7.9.2021110401",
+        "version": "7.9.2021110401"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel7-gen1",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel7-gen1:7.9.2023062711",
+        "version": "7.9.2023062711"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel7-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel7-gen1:7.9.2022011200",
+        "version": "7.9.2022011200"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel7-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel7-gen1:7.9.2022080301",
+        "version": "7.9.2022080301"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel7-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel7-gen1:7.9.2023042712",
+        "version": "7.9.2023042712"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel7-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel7-gen1:7.9.2023090617",
+        "version": "7.9.2023090617"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel-internal",
+        "urn": "RedHat:rh-rhel:rh-rhel-internal:8.9.2024040821",
+        "version": "8.9.2024040821"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel-internal",
+        "urn": "RedHat:rh-rhel:rh-rhel-internal:9.3.2024031811",
+        "version": "9.3.2024031811"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel8:8.10.2023090618",
+        "version": "8.10.2023090618"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel8:8.10.2023091513",
+        "version": "8.10.2023091513"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel8:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel8:8.7.2023062320",
+        "version": "8.7.2023062320"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel8:8.7.2023062611",
+        "version": "8.7.2023062611"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel8:8.8.2023082215",
+        "version": "8.8.2023082215"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8:8.7.2022111001",
+        "version": "8.7.2022111001"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8:8.8.2023062300",
+        "version": "8.8.2023062300"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8:8.8.2023080910",
+        "version": "8.8.2023080910"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8:8.9.2023121211",
+        "version": "8.9.2023121211"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8:8.9.2024012408",
+        "version": "8.9.2024012408"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8:8.9.2024030513",
+        "version": "8.9.2024030513"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8:8.9.2024040821",
+        "version": "8.9.2024040821"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel7",
+        "urn": "RedHat:rh-rhel:rh-rhel7:7.9.2022011200",
+        "version": "7.9.2022011200"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel7",
+        "urn": "RedHat:rh-rhel:rh-rhel7:7.9.2022080301",
+        "version": "7.9.2022080301"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel7",
+        "urn": "RedHat:rh-rhel:rh-rhel7:7.9.2023042712",
+        "version": "7.9.2023042712"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel7",
+        "urn": "RedHat:rh-rhel:rh-rhel7:7.9.2023090617",
+        "version": "7.9.2023090617"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel8-gen1:8.10.2023090618",
+        "version": "8.10.2023090618"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel8-gen1:8.10.2023091513",
+        "version": "8.10.2023091513"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel8-gen1:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel8-gen1:8.7.2023062320",
+        "version": "8.7.2023062320"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel8-gen1:8.7.2023062611",
+        "version": "8.7.2023062611"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel8-gen1:8.8.2023082215",
+        "version": "8.8.2023082215"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel7-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel7-gen1:7.9.2022011200",
+        "version": "7.9.2022011200"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel7-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel7-gen1:7.9.2022080301",
+        "version": "7.9.2022080301"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel7-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel7-gen1:7.9.2023042712",
+        "version": "7.9.2023042712"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel7-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel7-gen1:7.9.2023090617",
+        "version": "7.9.2023090617"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8-gen1:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8-gen1:8.7.2022111001",
+        "version": "8.7.2022111001"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8-gen1:8.8.2023062300",
+        "version": "8.8.2023062300"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8-gen1:8.8.2023080910",
+        "version": "8.8.2023080910"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8-gen1:8.9.2023121211",
+        "version": "8.9.2023121211"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8-gen1:8.9.2024012408",
+        "version": "8.9.2024012408"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8-gen1:8.9.2024030513",
+        "version": "8.9.2024030513"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel8-gen1:8.9.2024040821",
+        "version": "8.9.2024040821"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel9",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel9:9.3.2023033017",
+        "version": "9.3.2023033017"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8",
+        "urn": "RedHat:rh-rhel:rh-rhel8:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8",
+        "urn": "RedHat:rh-rhel:rh-rhel8:8.7.2022111001",
+        "version": "8.7.2022111001"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8",
+        "urn": "RedHat:rh-rhel:rh-rhel8:8.8.2023062300",
+        "version": "8.8.2023062300"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8",
+        "urn": "RedHat:rh-rhel:rh-rhel8:8.8.2023080910",
+        "version": "8.8.2023080910"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8",
+        "urn": "RedHat:rh-rhel:rh-rhel8:8.9.2023121211",
+        "version": "8.9.2023121211"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8",
+        "urn": "RedHat:rh-rhel:rh-rhel8:8.9.2024012408",
+        "version": "8.9.2024012408"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8",
+        "urn": "RedHat:rh-rhel:rh-rhel8:8.9.2024030513",
+        "version": "8.9.2024030513"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8",
+        "urn": "RedHat:rh-rhel:rh-rhel8:8.9.2024040821",
+        "version": "8.9.2024040821"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9:9.0.2022061000",
+        "version": "9.0.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9:9.1.2022112100",
+        "version": "9.1.2022112100"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9:9.2.2023041400",
+        "version": "9.2.2023041400"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9:9.2.2023061500",
+        "version": "9.2.2023061500"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9:9.2.2023080811",
+        "version": "9.2.2023080811"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9:9.2.2023091308",
+        "version": "9.2.2023091308"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9:9.3.2023121113",
+        "version": "9.3.2023121113"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9:9.3.2024020814",
+        "version": "9.3.2024020814"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9:9.3.2024031214",
+        "version": "9.3.2024031214"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9:9.4.2024052010",
+        "version": "9.4.2024052010"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel8-gen1:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel8-gen1:8.7.2022111001",
+        "version": "8.7.2022111001"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel8-gen1:8.8.2023062300",
+        "version": "8.8.2023062300"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel8-gen1:8.8.2023080910",
+        "version": "8.8.2023080910"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel8-gen1:8.9.2023121211",
+        "version": "8.9.2023121211"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel8-gen1:8.9.2024012408",
+        "version": "8.9.2024012408"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel8-gen1:8.9.2024030513",
+        "version": "8.9.2024030513"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel8-gen1:8.9.2024040821",
+        "version": "8.9.2024040821"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel9-gen1",
+        "urn": "redhat-rhel:rh-rhel:rh-rhel9-gen1:9.3.2023033017",
+        "version": "9.3.2023033017"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9",
+        "urn": "RedHat:rh-rhel:rh-rhel9:9.0.2022061000",
+        "version": "9.0.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9",
+        "urn": "RedHat:rh-rhel:rh-rhel9:9.1.2022112100",
+        "version": "9.1.2022112100"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9",
+        "urn": "RedHat:rh-rhel:rh-rhel9:9.2.2023041400",
+        "version": "9.2.2023041400"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9",
+        "urn": "RedHat:rh-rhel:rh-rhel9:9.2.2023061500",
+        "version": "9.2.2023061500"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9",
+        "urn": "RedHat:rh-rhel:rh-rhel9:9.2.2023070711",
+        "version": "9.2.2023070711"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9",
+        "urn": "RedHat:rh-rhel:rh-rhel9:9.2.2023080711",
+        "version": "9.2.2023080711"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9",
+        "urn": "RedHat:rh-rhel:rh-rhel9:9.2.2023091308",
+        "version": "9.2.2023091308"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9",
+        "urn": "RedHat:rh-rhel:rh-rhel9:9.3.2023121113",
+        "version": "9.3.2023121113"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9",
+        "urn": "RedHat:rh-rhel:rh-rhel9:9.3.2024020814",
+        "version": "9.3.2024020814"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9",
+        "urn": "RedHat:rh-rhel:rh-rhel9:9.3.2024031811",
+        "version": "9.3.2024031811"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9",
+        "urn": "RedHat:rh-rhel:rh-rhel9:9.4.2024052010",
+        "version": "9.4.2024052010"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9",
+        "urn": "RedHat:rh-rhel:rh-rhel9:9.4.2024061120",
+        "version": "9.4.2024061120"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9-gen1:9.0.2022061000",
+        "version": "9.0.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9-gen1:9.1.2022112100",
+        "version": "9.1.2022112100"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9-gen1:9.2.2023041400",
+        "version": "9.2.2023041400"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9-gen1:9.2.2023061500",
+        "version": "9.2.2023061500"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9-gen1:9.2.2023080811",
+        "version": "9.2.2023080811"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9-gen1:9.2.2023091308",
+        "version": "9.2.2023091308"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9-gen1:9.3.2023121113",
+        "version": "9.3.2023121113"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9-gen1:9.3.2024020814",
+        "version": "9.3.2024020814"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9-gen1:9.3.2024031214",
+        "version": "9.3.2024031214"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel9-gen1",
+        "urn": "redhat-limited:rh-rhel:rh-rhel9-gen1:9.4.2024052010",
+        "version": "9.4.2024052010"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel9-gen1:9.0.2022061000",
+        "version": "9.0.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel9-gen1:9.1.2022112100",
+        "version": "9.1.2022112100"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel9-gen1:9.2.2023041400",
+        "version": "9.2.2023041400"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel9-gen1:9.2.2023061500",
+        "version": "9.2.2023061500"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel9-gen1:9.2.2023070711",
+        "version": "9.2.2023070711"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel9-gen1:9.2.2023080711",
+        "version": "9.2.2023080711"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel9-gen1:9.2.2023091308",
+        "version": "9.2.2023091308"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel9-gen1:9.3.2023121113",
+        "version": "9.3.2023121113"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel9-gen1:9.3.2024020814",
+        "version": "9.3.2024020814"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel9-gen1:9.3.2024031811",
+        "version": "9.3.2024031811"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel9-gen1:9.4.2024052010",
+        "version": "9.4.2024052010"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel",
+        "publisher": "RedHat",
+        "sku": "rh-rhel9-gen1",
+        "urn": "RedHat:rh-rhel:rh-rhel9-gen1:9.4.2024061120",
+        "version": "9.4.2024061120"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel-sap-haus",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel-sap-haus:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel-sap-haus",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel-sap-haus:8.6.2023072107",
+        "version": "8.6.2023072107"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel-sap-haus",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel-sap-haus:9.0.2023122211",
+        "version": "9.0.2023122211"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel-sap-haus",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel-sap-haus:9.2.2023122216",
+        "version": "9.2.2023122216"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel-sap-haus",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel-sap-haus:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel-sap-haus",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel-sap-haus:8.6.2023072107",
+        "version": "8.6.2023072107"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel-sap-haus",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel-sap-haus:9.0.2023122211",
+        "version": "9.0.2023122211"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel-sap-haus",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel-sap-haus:9.2.2023122216",
+        "version": "9.2.2023122216"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel-sap-haus-gen1",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel-sap-haus-gen1:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel-sap-haus-gen1",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel-sap-haus-gen1:8.6.2023072107",
+        "version": "8.6.2023072107"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel-sap-haus-gen1",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel-sap-haus-gen1:9.0.2023122211",
+        "version": "9.0.2023122211"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel-sap-haus-gen1",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel-sap-haus-gen1:9.2.2023122216",
+        "version": "9.2.2023122216"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel-sap-haus-gen1",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel-sap-haus-gen1:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel-sap-haus-gen1",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel-sap-haus-gen1:8.6.2023072107",
+        "version": "8.6.2023072107"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel-sap-haus-gen1",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel-sap-haus-gen1:9.0.2023122211",
+        "version": "9.0.2023122211"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel-sap-haus-gen1",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel-sap-haus-gen1:9.2.2023122216",
+        "version": "9.2.2023122216"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-test",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8-gen2-internal",
+        "urn": "redhat-rhel:rh-rhel-test:rh-rhel8-gen2-internal:8.9.2024040821",
+        "version": "8.9.2024040821"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-sap-haus",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel8-sap-haus:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-sap-haus",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel8-sap-haus:8.6.2023072107",
+        "version": "8.6.2023072107"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-sap-haus",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel8-sap-haus:9.0.2023122211",
+        "version": "9.0.2023122211"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-sap-haus",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel8-sap-haus:9.2.2023122216",
+        "version": "9.2.2023122216"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-sap-haus",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel8-sap-haus:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-sap-haus",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel8-sap-haus:8.6.2023072107",
+        "version": "8.6.2023072107"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-sap-haus",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel8-sap-haus:8.6.2024052812",
+        "version": "8.6.2024052812"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-sap-haus",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel8-sap-haus:9.0.2023122211",
+        "version": "9.0.2023122211"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-sap-haus",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel8-sap-haus:9.2.2023122216",
+        "version": "9.2.2023122216"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-test",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel8-internal",
+        "urn": "redhat-rhel:rh-rhel-test:rh-rhel8-internal:8.9.2024040821",
+        "version": "8.9.2024040821"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-sap-haus-gen1",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel8-sap-haus-gen1:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-sap-haus-gen1",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel8-sap-haus-gen1:8.6.2023072107",
+        "version": "8.6.2023072107"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-sap-haus-gen1",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel8-sap-haus-gen1:9.0.2023122211",
+        "version": "9.0.2023122211"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "redhat-limited",
+        "sku": "rh-rhel8-sap-haus-gen1",
+        "urn": "redhat-limited:rh-rhel-sap-haus:rh-rhel8-sap-haus-gen1:9.2.2023122216",
+        "version": "9.2.2023122216"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-sap-haus-gen1",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel8-sap-haus-gen1:8.6.2022061000",
+        "version": "8.6.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-sap-haus-gen1",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel8-sap-haus-gen1:8.6.2023072107",
+        "version": "8.6.2023072107"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-sap-haus-gen1",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel8-sap-haus-gen1:8.6.2024052812",
+        "version": "8.6.2024052812"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-sap-haus-gen1",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel8-sap-haus-gen1:9.0.2023122211",
+        "version": "9.0.2023122211"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-sap-haus",
+        "publisher": "RedHat",
+        "sku": "rh-rhel8-sap-haus-gen1",
+        "urn": "RedHat:rh-rhel-sap-haus:rh-rhel8-sap-haus-gen1:9.2.2023122216",
+        "version": "9.2.2023122216"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-test",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel9",
+        "urn": "redhat-rhel:rh-rhel-test:rh-rhel9:9.0.2022061000",
+        "version": "9.0.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-test",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel9-gen1",
+        "urn": "redhat-rhel:rh-rhel-test:rh-rhel9-gen1:9.0.2022061000",
+        "version": "9.0.2022061000"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-test",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel9-gen2-internal",
+        "urn": "redhat-rhel:rh-rhel-test:rh-rhel9-gen2-internal:9.4.2024052010",
+        "version": "9.4.2024052010"
+    },
+    {
+        "architecture": "x64",
+        "offer": "rh-rhel-test",
+        "publisher": "redhat-rhel",
+        "sku": "rh-rhel9-internal",
+        "urn": "redhat-rhel:rh-rhel-test:rh-rhel9-internal:9.4.2024052010",
+        "version": "9.4.2024052010"
+    }
+]
