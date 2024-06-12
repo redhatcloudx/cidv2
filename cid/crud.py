@@ -278,3 +278,21 @@ def find_available_versions(db: Session) -> list:
     versions = [x.version for x in db.query(AwsImage.version).distinct()]
 
     return sorted(versions, key=Version, reverse=True)
+
+
+def find_images_for_version(db: Session, version: str) -> list:
+    """Return all images for a specific version of RHEL.
+
+    Args:
+        db (Session): database session
+        version (str): RHEL version to search
+
+    Returns:
+        list: list of images for the given version
+    """
+    images = db.query(AwsImage).filter(AwsImage.version == version).all()
+
+    for image in images:
+        print(image.id)
+
+    return [{"ami": x.id, "name": x.name} for x in images]
