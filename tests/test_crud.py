@@ -6,17 +6,13 @@ from cid import crud
 from cid.models import AwsImage, AzureImage, GoogleImage
 
 
-def test_latest_aws_image_no_images(db_session_factory):
-    db = db_session_factory
-
+def test_latest_aws_image_no_images(db):
     result = crud.latest_aws_image(db)
     print(result)
     assert result == {"error": "No images found", "code": 404}
 
 
-def test_latest_aws_image(db_session_factory):
-    db = db_session_factory
-
+def test_latest_aws_image(db):
     # Two images, same region, different versions.
     images = [
         AwsImage(
@@ -38,8 +34,10 @@ def test_latest_aws_image(db_session_factory):
     ]
 
     db.add_all(images)
+    db.commit()
 
     result = crud.latest_aws_image(db)
+    print(result)
     assert result["name"] == "test_image_2"
     assert result["amis"] == {"us-west-1": "ami-b"}
 
@@ -54,21 +52,19 @@ def test_latest_aws_image(db_session_factory):
             imageId="ami-c",
         )
     )
+    db.commit()
+
     result = crud.latest_aws_image(db)
     assert result["name"] == "test_image_2"
     assert result["amis"] == {"us-west-1": "ami-b", "us-west-2": "ami-c"}
 
 
-def test_latest_azure_image_no_images(db_session_factory):
-    db = db_session_factory
-
+def test_latest_azure_image_no_images(db):
     result = crud.latest_azure_image(db)
     assert result == {"error": "No images found", "code": 404}
 
 
-def test_latest_azure_image(db_session_factory):
-    db = db_session_factory
-
+def test_latest_azure_image(db):
     images = [
         AzureImage(
             id="urn-a",
@@ -86,22 +82,19 @@ def test_latest_azure_image(db_session_factory):
         ),
     ]
     db.add_all(images)
+    db.commit()
 
     result = crud.latest_azure_image(db)
     assert result["sku"] == "sku-a"
     assert result["version"] == "2.0"
 
 
-def test_latest_google_image_no_images(db_session_factory):
-    db = db_session_factory
-
+def test_latest_google_image_no_images(db):
     result = crud.latest_google_image(db)
     assert result == {"error": "No images found", "code": 404}
 
 
-def test_latest_google_image(db_session_factory):
-    db = db_session_factory
-
+def test_latest_google_image(db):
     images = [
         GoogleImage(
             id="image-a",
@@ -117,6 +110,7 @@ def test_latest_google_image(db_session_factory):
         ),
     ]
     db.add_all(images)
+    db.commit()
 
     result = crud.latest_google_image(db)
     assert result["name"] == "test_image_2"
