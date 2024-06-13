@@ -116,6 +116,7 @@ def import_aws_images(db: Session, images: list) -> None:
             "provider": image.get("ImageOwnerAlias"),
             "region": image.get("Region"),
             "description": image.get("Description"),
+            "creationDate": creation_date,
             "deprecationTime": deprecation_time,
         }
         import_queue.append(image_dict)

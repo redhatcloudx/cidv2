@@ -20,6 +20,7 @@ class AwsImage(Base):
     provider = Column(String)
     region = Column(String)
     description = Column(String)
+    creationDate = Column(DateTime)
     deprecationTime = Column(DateTime)
 
 
