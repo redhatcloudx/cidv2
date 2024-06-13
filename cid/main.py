@@ -4,12 +4,14 @@ from time import sleep
 from typing import Any, Dict, Generator
 
 from fastapi import Depends, FastAPI
+from fastapi.encoders import jsonable_encoder
 from schedule import every, repeat, run_all, run_pending
 from sqlalchemy.orm import Session
 
 from cid import crud
 from cid.config import ENVIRONMENT
 from cid.database import SessionLocal
+from cid.models import AwsImage
 from cid.utils import wait_for_database
 
 log = logging.getLogger(__name__)
@@ -37,6 +39,24 @@ def latest(db: Session = Depends(get_db)) -> Dict[str, Any]:  # noqa: B008
         "latest_azure_image": crud.latest_azure_image(db),
         "latest_google_image": crud.latest_google_image(db),
     }
+
+
+@app.get("/aws")
+def all_aws_images(db: Session = Depends(get_db)) -> list:  # noqa: B008
+    result = db.query(AwsImage).order_by(AwsImage.creationDate.desc()).all()
+    return list(jsonable_encoder(result))
+
+
+@app.get("/aws/{image_id}")
+def single_aws_image(image_id: str, db: Session = Depends(get_db)) -> dict:  # noqa: B008
+    result = db.query(AwsImage).filter(AwsImage.id == image_id).first()
+    return dict(jsonable_encoder(result))
+
+
+@app.get("/aws/match/{image_id}")
+def match_aws_image(image_id: str, db: Session = Depends(get_db)) -> dict:  # noqa: B008
+    result = crud.find_matching_ami(db, image_id)
+    return result
 
 
 @app.get("/versions")
