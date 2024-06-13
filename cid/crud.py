@@ -3,7 +3,7 @@
 import logging
 from typing import Any
 
-import dateparser
+from dateutil import parser
 from packaging.version import Version
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
@@ -95,43 +95,32 @@ def import_aws_images(db: Session, images: list) -> None:
 
     for image in images:
         # sqlite requires dates to be in Python's datetime format.
-        creation_date = dateparser.parse(image.get("CreationDate"))
-        deprecation_time = dateparser.parse(image.get("DeprecationTime"))
+        creation_date = parser.parse(image.get("CreationDate"))
+        deprecation_time = parser.parse(image.get("DeprecationTime"))
 
         # Extract the RHEL version number from the image name.
         image_name = extract_aws_version(image.get("Name"))
 
-        image_obj = AwsImage(
-            id=image.get("ImageId"),
-            name=image.get("Name"),
-            arch=image.get("Architecture"),
-            version=image_name,
-            imageId=image.get("ImageId"),
-            date=creation_date,
-            virt=image.get("VirtualizationType"),
-            provider=image.get("ImageOwnerAlias"),
-            region=image.get("Region"),
-            imageLocation=image.get("ImageLocation"),
-            imageType=image.get("ImageType"),
-            public=image.get("Public"),
-            ownerId=image.get("OwnerId"),
-            platformDetails=image.get("PlatformDetails"),
-            usageOperation=image.get("UsageOperation"),
-            state=image.get("State"),
-            blockDeviceMappings=image.get("BlockDeviceMappings"),
-            description=image.get("Description"),
-            enaSupport=image.get("EnaSupport"),
-            hypervisor=image.get("Hypervisor"),
-            rootDeviceName=image.get("RootDeviceName"),
-            rootDeviceType=image.get("RootDeviceType"),
-            sriovNetSupport=image.get("SriovNetSupport"),
-            deprecationTime=deprecation_time,
-        )
-        import_queue.append(image_obj)
+        # AWS has a LOT of data. We generate a list of dictionaries and then
+        # import them in bulk at the end.
+        image_dict = {
+            "id": image.get("ImageId"),
+            "name": image.get("Name"),
+            "arch": image.get("Architecture"),
+            "version": image_name,
+            "imageId": image.get("ImageId"),
+            "date": creation_date,
+            "provider": image.get("ImageOwnerAlias"),
+            "region": image.get("Region"),
+            "description": image.get("Description"),
+            "deprecationTime": deprecation_time,
+        }
+        import_queue.append(image_dict)
 
     logger.info("Adding %s AWS images to the database", len(import_queue))
 
-    db.add_all(import_queue)
+    # This lower-level method is more efficient for inserting lots of rows at once.
+    db.execute(AwsImage.__table__.insert(), import_queue)
     db.commit()
 
 
@@ -163,7 +152,7 @@ def import_google_images(db: Session, images: list) -> None:
 
     for image in images:
         # sqlite requires dates to be in Python's datetime format.
-        creation_timestamp = dateparser.parse(image.get("creationTimestamp"))
+        creation_timestamp = parser.parse(image.get("creationTimestamp"))
 
         # Extract the RHEL version number from the image name.
         image_name = extract_google_version(image.get("name"))
