@@ -1,6 +1,6 @@
 """Database models."""
 
-from sqlalchemy import JSON, Boolean, Column, DateTime, Integer, String
+from sqlalchemy import JSON, Column, DateTime, Integer, String
 
 from cid.database import Base
 
@@ -17,23 +17,9 @@ class AwsImage(Base):
     version = Column(String)
     imageId = Column(String)
     date = Column(DateTime)
-    virt = Column(String)
     provider = Column(String)
     region = Column(String)
-    imageLocation = Column(String)
-    imageType = Column(String)
-    public = Column(Boolean)
-    ownerId = Column(String)
-    platformDetails = Column(String)
-    usageOperation = Column(String)
-    state = Column(String)
-    blockDeviceMappings = Column(JSON)
     description = Column(String)
-    enaSupport = Column(Boolean)
-    hypervisor = Column(String)
-    rootDeviceName = Column(String)
-    rootDeviceType = Column(String)
-    sriovNetSupport = Column(String)
     deprecationTime = Column(DateTime)
 
 
