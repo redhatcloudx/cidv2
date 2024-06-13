@@ -150,3 +150,54 @@ def test_import_google_images(db):
     # curl https://cloudx-json-bucket.s3.amazonaws.com/raw/aws/aws.json |jq ".[0:10]" > tests/data/aws.json
     assert db.query(GoogleImage).count() == len(images)
     assert db.query(GoogleImage).first().id == images[0]["id"]
+
+
+def test_find_matching_ami(db):
+    # Simulate the same image across two regions with different AMI IDs.
+    images = [
+        AwsImage(id="ami-a", imageId="ami-a", name="IMAGE01", region="us-east-1"),
+        AwsImage(id="ami-b", imageId="ami-b", name="IMAGE01", region="us-east-2"),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.find_matching_ami(db, "ami-a")
+    assert result["ami"] == "ami-a"
+    assert result["matching_images"] == [
+        {"region": "us-east-1", "ami": "ami-a"},
+        {"region": "us-east-2", "ami": "ami-b"},
+    ]
+
+
+def test_find_available_versions(db):
+    images = [
+        AwsImage(id="ami-a", version="8.2.0"),
+        AwsImage(id="ami-b", version="7.9.0"),
+        AwsImage(id="ami-c", version="9.5.0"),
+        AwsImage(id="ami-d", version="10.0.0"),
+        AwsImage(id="ami-e", version="9.5.0"),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.find_available_versions(db)
+    assert result == ["10.0.0", "9.5.0", "8.2.0", "7.9.0"]
+
+
+def test_find_images_for_version(db):
+    images = [
+        AwsImage(id="ami-a", name="RHEL-8.2.0", version="8.2.0"),
+        AwsImage(id="ami-b", name="RHEL-7.9.0", version="7.9.0"),
+        AwsImage(id="ami-c", name="RHEL-9.5.0v1", version="9.5.0"),
+        AwsImage(id="ami-d", name="RHEL-10.0.0", version="10.0.0"),
+        AwsImage(id="ami-e", name="RHEL-9.5.0v2", version="9.5.0"),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.find_images_for_version(db, "9.5.0")
+    print(result)
+    assert result == [
+        {"ami": "ami-c", "name": "RHEL-9.5.0v1"},
+        {"ami": "ami-e", "name": "RHEL-9.5.0v2"},
+    ]

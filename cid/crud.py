@@ -4,6 +4,7 @@ import logging
 from typing import Any
 
 import dateparser
+from packaging.version import Version
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
@@ -224,3 +225,74 @@ def update_image_data(db: Session) -> None:
                 raise InvalidCloudProvider(cloud)
 
     logger.info("🎉 Image data updated successfully")
+
+
+def find_matching_ami(db: Session, image_id: str) -> dict:
+    """Given a single AMI, find matching AMIs in other regions.
+
+    Args:
+        db (Session): database session
+        image_id (str): AMI ID to search
+
+    Returns:
+        dict: basic information about the image with matching AMIs
+    """
+    # Get the image record for the AMI we were given.
+    image = db.query(AwsImage).filter(AwsImage.imageId == image_id).first()
+
+    if image is None:
+        return {"error": "No images found", "code": 404}
+
+    # Use the name to find matching images in other regions.
+    matching_images = (
+        db.query(AwsImage.imageId, AwsImage.region)
+        .filter(AwsImage.name == image.name)
+        .all()
+    )
+
+    return {
+        "ami": image.imageId,
+        "name": image.name,
+        "version": image.version,
+        "region": image.region,
+        "matching_images": [
+            {"region": region, "ami": imageId} for imageId, region in matching_images
+        ],
+    }
+
+
+def find_available_versions(db: Session) -> list:
+    """Return all RHEL versions available from AWS.
+
+    It would be good to add the other providers later, but this data is so much easier
+    to gather on AWS right now.
+
+    Args:
+        db (Session): database session name
+        (str): image name to search
+
+    Returns:
+        list: list of available versions
+    """
+    # Get all images with the given name.
+    versions = [x.version for x in db.query(AwsImage.version).distinct()]
+
+    return sorted(versions, key=Version, reverse=True)
+
+
+def find_images_for_version(db: Session, version: str) -> list:
+    """Return all images for a specific version of RHEL.
+
+    Args:
+        db (Session): database session
+        version (str): RHEL version to search
+
+    Returns:
+        list: list of images for the given version
+    """
+    images = db.query(AwsImage).filter(AwsImage.version == version).all()
+
+    for image in images:
+        print(image.id)
+
+    return [{"ami": x.id, "name": x.name} for x in images]
