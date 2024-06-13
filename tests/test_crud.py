@@ -122,9 +122,7 @@ def test_import_aws_images(db):
 
     crud.import_aws_images(db, images)
 
-    # The test data contains the first 10 results from a recent AWS API call.
-    # curl https://cloudx-json-bucket.s3.amazonaws.com/raw/aws/aws.json |jq ".[0:10]" > tests/data/aws.json
-    assert db.query(AwsImage).count() == 10
+    assert db.query(AwsImage).count() == 500
     assert db.query(AwsImage).first().name == images[0]["Name"]
 
 
