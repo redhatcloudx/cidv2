@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 from cid.config import CLOUD_PROVIDERS
 from cid.database import engine
 from cid.models import AwsImage, AzureImage, GoogleImage
+from typing import Optional
 from cid.utils import (
     InvalidCloudProvider,
     extract_aws_version,
@@ -26,70 +27,91 @@ def aws_regions(db: Session) -> list:
     return db.query(AwsImage.region).distinct().order_by(AwsImage.region).all()
 
 
-def latest_aws_image(db: Session) -> dict[str, Any]:
+def latest_aws_image(db: Session, arch: Optional[str]) -> dict[str, Any]:
     """Get the latest RHEL image on AWS."""
-    # Find the image with the highest version number and the latest date.
-    latest_image = (
-        db.query(AwsImage)
-        .filter(AwsImage.name.notlike("%BETA%"))
-        .order_by(desc(AwsImage.version), desc(AwsImage.date))
-        .first()
-    )
+    archs = [[arch]] if arch is not None else db.query(AwsImage.arch).distinct().all()
 
-    if latest_image is None:
-        return {"error": "No images found", "code": 404}
-
-    # Loop through each region to find the latest image available in each.
-    images = {}
-    for region in aws_regions(db):
-        region_image = (
+    latest_images_dict = {}
+    for arch in archs:
+        # Find the image with the highest version number and the latest date.
+        latest_image = (
             db.query(AwsImage)
-            .filter(AwsImage.region == region[0], AwsImage.name == latest_image.name)
+            .filter(AwsImage.name.notlike("%BETA%"), AwsImage.arch == arch[0])
+            .order_by(desc(AwsImage.version), desc(AwsImage.date))
             .first()
         )
-        if region_image is not None:
-            images[region[0]] = region_image.imageId
+        if latest_image is None:
+            return {"error": f"No images found for architecture type {arch[0]}", "code": 404}
 
-    return {
-        "name": latest_image.name,
-        "version": latest_image.version,
-        "date": latest_image.date,
-        "amis": images,
-    }
+        # Loop through each region to find the latest image available in each.
+        images = {}
+        for region in aws_regions(db):
+            region_image = (
+                db.query(AwsImage)
+                .filter(AwsImage.region == region[0], AwsImage.name == latest_image.name, AwsImage.arch == arch[0])
+                .first()
+            )
+            if region_image is not None:
+                images[region[0]] = region_image.imageId
+
+        latest_images_dict[arch[0]] ={
+            "name": latest_image.name,
+            "version": latest_image.version,
+            "date": latest_image.date,
+            "amis": images,
+        }
+    return latest_images_dict
 
 
-def latest_azure_image(db: Session) -> dict[str, Any]:
+def latest_azure_image(db: Session, arch: Optional[str]) -> dict[str, Any]:
     """Get the latest RHEL image on Azure."""
-    latest_image = db.query(AzureImage).order_by(desc(AzureImage.version)).first()
 
-    if latest_image is None:
-        return {"error": "No images found", "code": 404}
+    archs = [[arch]] if arch is not None else db.query(AzureImage.architecture).distinct().all()
 
-    return {
-        "sku": latest_image.sku,
-        "offer": latest_image.offer,
-        "version": latest_image.version,
-        "urn": latest_image.urn,
-    }
+    latest_images_dict = {}
+    for arch in archs:
+        latest_image = (
+            db.query(AzureImage)
+            .filter(AzureImage.architecture == arch[0])
+            .order_by(desc(AzureImage.version))
+            .first()
+        )
+
+        if latest_image is None:
+            return {"error": f"No images found for architecture type {arch[0]}", "code": 404}
+
+        latest_images_dict[arch[0]] = {
+            "sku": latest_image.sku,
+            "offer": latest_image.offer,
+            "version": latest_image.version,
+            "urn": latest_image.urn,
+        }
+    return latest_images_dict
 
 
-def latest_google_image(db: Session) -> dict:
+def latest_google_image(db: Session, arch: Optional[str]) -> dict:
     """Get the latest RHEL image on Google Cloud."""
-    latest_image = (
-        db.query(GoogleImage)
-        .order_by(desc(GoogleImage.version), desc(GoogleImage.creationTimestamp))
-        .first()
-    )
+    archs = [[arch]] if arch is not None else db.query(GoogleImage.arch).distinct().all()
 
-    if latest_image is None:
-        return {"error": "No images found", "code": 404}
+    latest_images_dict = {}
+    for arch in archs:
+        latest_image = (
+            db.query(GoogleImage)
+            .filter(GoogleImage.arch == arch[0])
+            .order_by(desc(GoogleImage.version), desc(GoogleImage.creationTimestamp))
+            .first()
+        )
 
-    return {
-        "name": latest_image.name,
-        "version": latest_image.version,
-        "date": latest_image.creationTimestamp,
-        "selfLink": latest_image.selfLink,
-    }
+        if latest_image is None:
+            return {"error": f"No images found for architecture type {arch[0]}", "code": 404}
+
+        latest_images_dict[arch[0]] = {
+            "name": latest_image.name,
+            "version": latest_image.version,
+            "date": latest_image.creationTimestamp,
+            "selfLink": latest_image.selfLink,
+        }
+    return latest_images_dict
 
 
 def import_aws_images(db: Session, images: list) -> None:
