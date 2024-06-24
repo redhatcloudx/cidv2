@@ -8,7 +8,7 @@ from cid.models import AwsImage, AzureImage, GoogleImage
 
 
 def test_latest_aws_image_no_images(db):
-    result = crud.latest_aws_image(db)
+    result = crud.latest_aws_image(db, None)
     assert result == {"error": "No images found", "code": 404}
 
 
@@ -36,7 +36,7 @@ def test_latest_aws_image(db):
     db.add_all(images)
     db.commit()
 
-    result = crud.latest_aws_image(db)
+    result = crud.latest_aws_image(db, None)
     assert result["name"] == "test_image_2"
     assert result["amis"] == {"us-west-1": "ami-b"}
 
@@ -53,13 +53,13 @@ def test_latest_aws_image(db):
     )
     db.commit()
 
-    result = crud.latest_aws_image(db)
+    result = crud.latest_aws_image(db, None)
     assert result["name"] == "test_image_2"
     assert result["amis"] == {"us-west-1": "ami-b", "us-west-2": "ami-c"}
 
 
 def test_latest_azure_image_no_images(db):
-    result = crud.latest_azure_image(db)
+    result = crud.latest_azure_image(db, None)
     assert result == {"error": "No images found", "code": 404}
 
 
@@ -83,17 +83,17 @@ def test_latest_azure_image(db):
     db.add_all(images)
     db.commit()
 
-    result = crud.latest_azure_image(db)
+    result = crud.latest_azure_image(db, None)
     assert result["sku"] == "sku-a"
     assert result["version"] == "2.0"
 
 
 def test_latest_google_image_no_images(db):
-    result = crud.latest_google_image(db)
+    result = crud.latest_google_image(db, None)
     assert result == {"error": "No images found", "code": 404}
 
 
-def test_latest_google_image(db):
+def test_latest_google_image(db, none):
     images = [
         GoogleImage(
             id="image-a",
@@ -111,7 +111,7 @@ def test_latest_google_image(db):
     db.add_all(images)
     db.commit()
 
-    result = crud.latest_google_image(db)
+    result = crud.latest_google_image(db, none)
     assert result["name"] == "test_image_2"
     assert result["version"] == "2.0"
 

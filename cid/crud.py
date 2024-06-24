@@ -1,7 +1,7 @@
 """Create, replace, update, and delete functions for the CID database."""
 
 import logging
-from typing import Any
+from typing import Any, Optional
 
 from dateutil import parser
 from packaging.version import Version
@@ -29,37 +29,49 @@ def aws_regions(db: Session) -> list:
 
 def latest_aws_image(db: Session, arch: Optional[str]) -> dict[str, Any]:
     """Get the latest RHEL image on AWS."""
-    archs = [[arch]] if arch is not None else db.query(AwsImage.arch).distinct().all()
+    archs = (
+        [arch]
+        if arch is not None
+        else [arch[0] for arch in db.query(AwsImage.arch).distinct().all()]
+    )
 
     latest_images_dict = {}
     for arch in archs:
         # Find the image with the highest version number and the latest date.
         latest_image = (
             db.query(AwsImage)
-            .filter(AwsImage.name.notlike("%BETA%"), AwsImage.arch == arch[0])
+            .filter(AwsImage.name.notlike("%BETA%"), AwsImage.arch == arch)
             .order_by(desc(AwsImage.version), desc(AwsImage.date))
             .first()
         )
         if latest_image is None:
-            return {"error": f"No images found for architecture type {arch[0]}", "code": 404}
+            continue
 
         # Loop through each region to find the latest image available in each.
         images = {}
         for region in aws_regions(db):
             region_image = (
                 db.query(AwsImage)
-                .filter(AwsImage.region == region[0], AwsImage.name == latest_image.name, AwsImage.arch == arch[0])
+                .filter(
+                    AwsImage.region == region[0],
+                    AwsImage.name == latest_image.name,
+                    AwsImage.arch == arch,
+                )
                 .first()
             )
             if region_image is not None:
                 images[region[0]] = region_image.imageId
 
-        latest_images_dict[arch[0]] ={
+        latest_images_dict[arch] = {
             "name": latest_image.name,
             "version": latest_image.version,
             "date": latest_image.date,
             "amis": images,
         }
+
+    if not latest_images_dict:
+        return {"error": "No images found for AWS.", "code": 404}
+
     return latest_images_dict
 
 
