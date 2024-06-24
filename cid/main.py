@@ -1,7 +1,7 @@
 import logging
 import threading
 from time import sleep
-from typing import Any, Dict, Generator
+from typing import Generator, Optional
 
 from fastapi import Depends, FastAPI
 from fastapi.encoders import jsonable_encoder
@@ -13,7 +13,6 @@ from cid.config import ENVIRONMENT
 from cid.database import SessionLocal
 from cid.models import AwsImage
 from cid.utils import wait_for_database
-from typing import Optional
 
 log = logging.getLogger(__name__)
 
@@ -40,7 +39,7 @@ def all_aws_images(db: Session = Depends(get_db)) -> list:  # noqa: B008
 
 
 @app.get("/aws/latest")
-def all_aws_images(db: Session = Depends(get_db), arch: Optional[str] = None) -> dict:  # noqa: B008
+def latest_aws_image(db: Session = Depends(get_db), arch: Optional[str] = None) -> dict:  # noqa: B008
     return crud.latest_aws_image(db, arch)
 
 

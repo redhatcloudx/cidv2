@@ -9,27 +9,47 @@ from cid.models import AwsImage, AzureImage, GoogleImage
 
 def test_latest_aws_image_no_images(db):
     result = crud.latest_aws_image(db, None)
-    assert result == {"error": "No images found", "code": 404}
+    assert result == {"error": "No images found for AWS.", "code": 404}
 
 
 def test_latest_aws_image(db):
     # Two images, same region, different versions.
     images = [
         AwsImage(
-            id="ami-a",
-            name="test_image_1",
+            id="ami-1a",
+            name="test_image_1a",
+            arch="x86_64",
             version="1.0",
             date=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
             region="us-west-1",
-            imageId="ami-a",
+            imageId="ami-1a",
         ),
         AwsImage(
-            id="ami-b",
-            name="test_image_2",
+            id="ami-1b",
+            name="test_image_1b",
+            arch="x86_64",
             version="2.0",
             date=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
             region="us-west-1",
-            imageId="ami-b",
+            imageId="ami-1b",
+        ),
+        AwsImage(
+            id="ami-2a",
+            name="test_image_2a",
+            arch="arm64",
+            version="1.0",
+            date=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+            region="us-west-1",
+            imageId="ami-2a",
+        ),
+        AwsImage(
+            id="ami-2b",
+            name="test_image_2b",
+            arch="arm64",
+            version="2.0",
+            date=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+            region="us-west-1",
+            imageId="ami-2b",
         ),
     ]
 
@@ -37,15 +57,18 @@ def test_latest_aws_image(db):
     db.commit()
 
     result = crud.latest_aws_image(db, None)
-    assert result["name"] == "test_image_2"
-    assert result["amis"] == {"us-west-1": "ami-b"}
+    assert result["x86_64"]["name"] == "test_image_1b"
+    assert result["x86_64"]["amis"] == {"us-west-1": "ami-1b"}
+    assert result["arm64"]["name"] == "test_image_2b"
+    assert result["arm64"]["amis"] == {"us-west-1": "ami-2b"}
 
     # Add the same version to another region.
     db.add(
         AwsImage(
             id="ami-c",
-            name="test_image_2",
+            name="test_image_2b",
             version="2.0",
+            arch="arm64",
             date=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
             region="us-west-2",
             imageId="ami-c",
@@ -54,12 +77,61 @@ def test_latest_aws_image(db):
     db.commit()
 
     result = crud.latest_aws_image(db, None)
-    assert result["name"] == "test_image_2"
-    assert result["amis"] == {"us-west-1": "ami-b", "us-west-2": "ami-c"}
+    assert result["arm64"]["name"] == "test_image_2b"
+    assert result["arm64"]["amis"] == {"us-west-1": "ami-2b", "us-west-2": "ami-c"}
+
+
+def test_latest_aws_image_query_for_arch(db):
+    images = [
+        AwsImage(
+            id="ami-1a",
+            name="test_image_1a",
+            arch="x86_64",
+            version="1.0",
+            date=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+            region="us-west-1",
+            imageId="ami-1a",
+        ),
+        AwsImage(
+            id="ami-1b",
+            name="test_image_1b",
+            arch="x86_64",
+            version="2.0",
+            date=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+            region="us-west-1",
+            imageId="ami-1b",
+        ),
+        AwsImage(
+            id="ami-2a",
+            name="test_image_2a",
+            arch="arm64",
+            version="1.0",
+            date=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+            region="us-west-1",
+            imageId="ami-2a",
+        ),
+        AwsImage(
+            id="ami-2b",
+            name="test_image_2b",
+            arch="arm64",
+            version="2.0",
+            date=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+            region="us-west-1",
+            imageId="ami-2b",
+        ),
+    ]
+
+    db.add_all(images)
+    db.commit()
+
+    result = crud.latest_aws_image(db, "x86_64")
+    assert result["x86_64"]["name"] == "test_image_1b"
+    assert result["x86_64"]["amis"] == {"us-west-1": "ami-1b"}
+    assert "arm64" not in result
 
 
 def test_latest_azure_image_no_images(db):
-    result = crud.latest_azure_image(db, None)
+    result = crud.latest_azure_image(db)
     assert result == {"error": "No images found", "code": 404}
 
 
@@ -83,17 +155,17 @@ def test_latest_azure_image(db):
     db.add_all(images)
     db.commit()
 
-    result = crud.latest_azure_image(db, None)
+    result = crud.latest_azure_image(db)
     assert result["sku"] == "sku-a"
     assert result["version"] == "2.0"
 
 
 def test_latest_google_image_no_images(db):
-    result = crud.latest_google_image(db, None)
+    result = crud.latest_google_image(db)
     assert result == {"error": "No images found", "code": 404}
 
 
-def test_latest_google_image(db, none):
+def test_latest_google_image(db):
     images = [
         GoogleImage(
             id="image-a",
@@ -111,7 +183,7 @@ def test_latest_google_image(db, none):
     db.add_all(images)
     db.commit()
 
-    result = crud.latest_google_image(db, none)
+    result = crud.latest_google_image(db)
     assert result["name"] == "test_image_2"
     assert result["version"] == "2.0"
 
