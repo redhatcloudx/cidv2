@@ -74,19 +74,36 @@ def latest_aws_image(db: Session, arch: Optional[str]) -> dict[str, Any]:
     return latest_images_dict
 
 
-def latest_azure_image(db: Session) -> dict[str, Any]:
+def latest_azure_image(db: Session, arch: Optional[str]) -> dict[str, Any]:
     """Get the latest RHEL image on Azure."""
-    latest_image = db.query(AzureImage).order_by(desc(AzureImage.version)).first()
+    archs = (
+        [arch]
+        if arch is not None
+        else [arch[0] for arch in db.query(AzureImage.architecture).distinct().all()]
+    )
+    latest_images_dict = {}
+    for arch in archs:
+        latest_image = (
+            db.query(AzureImage)
+            .filter(AzureImage.architecture == arch)
+            .order_by(desc(AzureImage.version))
+            .first()
+        )
 
-    if latest_image is None:
-        return {"error": "No images found", "code": 404}
+        if latest_image is None:
+            continue
 
-    return {
-        "sku": latest_image.sku,
-        "offer": latest_image.offer,
-        "version": latest_image.version,
-        "urn": latest_image.urn,
-    }
+        latest_images_dict[arch] = {
+            "sku": latest_image.sku,
+            "offer": latest_image.offer,
+            "version": latest_image.version,
+            "urn": latest_image.urn,
+        }
+
+    if not latest_images_dict:
+        return {"error": "No images found for Azure", "code": 404}
+
+    return latest_images_dict
 
 
 def latest_google_image(db: Session) -> dict:
