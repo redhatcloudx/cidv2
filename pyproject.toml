@@ -9,7 +9,6 @@ readme = "README.md"
 python = ">=3.12,<4.0"
 fastapi = "^0.111.0"
 sqlalchemy = {extras = ["mypy"], version = "^2.0.30"}
-alembic = "^1.13.1"
 uvicorn = "^0.30.1"
 pydantic = "^2.7.3"
 psycopg2-binary = "^2.9.9"
