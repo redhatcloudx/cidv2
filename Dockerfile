@@ -10,4 +10,7 @@ RUN poetry install --no-interaction --no-ansi --no-root --no-dev
 COPY cid /code/cid/
 COPY import_data.py /code/
 COPY README.md /code/
+
+RUN env POPULATE_DB_ONLY=1 uvicorn cid.main:app
+
 CMD ["poetry", "run", "uvicorn", "cid.main:app", "--host 0.0.0.0", "--port 80"]

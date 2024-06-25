@@ -3,11 +3,11 @@
 import os
 
 # Get the current environment (default to testing if not set).
-ENVIRONMENT = os.getenv("ENVIRONMENT", "testing")
+ENVIRONMENT = os.getenv("ENVIRONMENT", "production").lower()
 
 # Database connection string.
 DATABASE_URLS = {
-    "production": "postgresql://postgres:postgres@db:5432/test_db",
+    "production": "sqlite:////cid.db",
     "testing": "sqlite:///:memory:",
 }
 DATABASE_URL = DATABASE_URLS[ENVIRONMENT]

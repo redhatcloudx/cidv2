@@ -5,7 +5,7 @@ services:
     build: .
     command: bash -c "poetry run uvicorn cid.main:app --host 0.0.0.0 --port 80 --reload"
     volumes:
-      - .:/code
+      - .:/code:z
     ports:
       - 8000:80
     environment:
