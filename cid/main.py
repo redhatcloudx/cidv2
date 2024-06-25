@@ -36,7 +36,7 @@ def read_root() -> dict:
 def latest(db: Session = Depends(get_db)) -> Dict[str, Any]:  # noqa: B008
     return {
         "latest_aws_image": crud.latest_aws_image(db),
-        "latest_azure_image": crud.latest_azure_image(db),
+        "latest_azure_image": crud.latest_azure_image(db, None),
         "latest_google_image": crud.latest_google_image(db),
     }
 
