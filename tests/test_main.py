@@ -48,39 +48,41 @@ def test_read_root():
 
 
 @patch("cid.crud.latest_aws_image")
-@patch("cid.crud.latest_azure_image")
-@patch("cid.crud.latest_google_image")
-def test_latest_image(mock_google, mock_azure, mock_aws):
+def test_latest_aws_image(mock_aws):
     mock_aws.return_value = {
         "name": "test_image",
         "version": "1.0",
         "date": "2022-01-01",
         "amis": {"us-west-1": "ami-12345678"},
     }
-    mock_azure.return_value = {
-        "sku": "sku-a",
-        "offer": "offer-a",
-        "version": "2.0",
-        "urn": "urn-b",
-    }
-    mock_google.return_value = {
+
+    response = client.get("/aws/latest")
+    result = response.json()
+
+    assert response.status_code == 200
+    assert result["name"] == "test_image"
+    assert result["version"] == "1.0"
+    assert result["date"] == "2022-01-01"
+    assert result["amis"] == {"us-west-1": "ami-12345678"}
+
+
+@patch("cid.crud.latest_aws_image")
+def test_latest_aws_image_query_for_arch(mock_aws):
+    mock_aws.return_value = {
         "name": "test_image",
         "version": "1.0",
         "date": "2022-01-01",
-        "selfLink": "https://www.example.com",
+        "amis": {"us-west-1": "ami-12345678"},
     }
 
-    response = client.get("/latest")
+    response = client.get("/aws/latest?arch=x86_64")
     result = response.json()
 
-    assert result.keys() == {
-        "latest_aws_image",
-        "latest_azure_image",
-        "latest_google_image",
-    }
-    assert result["latest_aws_image"]["name"] == "test_image"
-    assert result["latest_azure_image"]["sku"] == "sku-a"
-    assert result["latest_google_image"]["name"] == "test_image"
+    assert response.status_code == 200
+    assert result["name"] == "test_image"
+    assert result["version"] == "1.0"
+    assert result["date"] == "2022-01-01"
+    assert result["amis"] == {"us-west-1": "ami-12345678"}
 
 
 @patch("cid.crud.find_available_versions")
