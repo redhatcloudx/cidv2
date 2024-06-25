@@ -59,14 +59,20 @@ def test_latest_aws_image(db):
 
 
 def test_latest_azure_image_no_images(db):
-    result = crud.latest_azure_image(db)
-    assert result == {"error": "No images found", "code": 404}
+    result = crud.latest_azure_image(db, None)
+    assert result == {"error": "No images found for Azure", "code": 404}
 
 
-def test_latest_azure_image(db):
+def test_latest_azure_image_wrong_arch(db):
+    result = crud.latest_azure_image(db, "arm32")
+    assert result == {"error": "No images found for Azure", "code": 404}
+
+
+def test_latest_azure_image_single_arch(db):
     images = [
         AzureImage(
             id="urn-a",
+            architecture="arm64",
             sku="sku-a",
             offer="offer-a",
             version="1.0",
@@ -74,6 +80,7 @@ def test_latest_azure_image(db):
         ),
         AzureImage(
             id="urn-b",
+            architecture="arm64",
             sku="sku-a",
             offer="offer-a",
             version="2.0",
@@ -83,9 +90,99 @@ def test_latest_azure_image(db):
     db.add_all(images)
     db.commit()
 
-    result = crud.latest_azure_image(db)
-    assert result["sku"] == "sku-a"
-    assert result["version"] == "2.0"
+    result = crud.latest_azure_image(db, None)
+    print(result)
+    assert result["arm64"]["sku"] == "sku-a"
+    assert result["arm64"]["version"] == "2.0"
+
+
+def test_latest_azure_image_multiple_arch(db):
+    images = [
+        AzureImage(
+            id="urn-1a",
+            architecture="arm64",
+            sku="sku-1a",
+            offer="offer-1a",
+            version="1.0",
+            urn="urn-1a",
+        ),
+        AzureImage(
+            id="urn-2a",
+            architecture="arm64",
+            sku="sku-2a",
+            offer="offer-2a",
+            version="1.5",
+            urn="urn-2a",
+        ),
+        AzureImage(
+            id="urn-1b",
+            architecture="x64",
+            sku="sku-1b",
+            offer="offer-1b",
+            version="2.0",
+            urn="urn-1b",
+        ),
+        AzureImage(
+            id="urn-2b",
+            architecture="x64",
+            sku="sku-2b",
+            offer="offer-2b",
+            version="1.0",
+            urn="urn-2b",
+        ),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.latest_azure_image(db, None)
+    assert result["arm64"]["sku"] == "sku-2a"
+    assert result["arm64"]["version"] == "1.5"
+    assert result["x64"]["sku"] == "sku-1b"
+    assert result["x64"]["version"] == "2.0"
+
+
+def test_latest_azure_image_query_arch(db):
+    images = [
+        AzureImage(
+            id="urn-1a",
+            architecture="arm64",
+            sku="sku-1a",
+            offer="offer-1a",
+            version="1.0",
+            urn="urn-1a",
+        ),
+        AzureImage(
+            id="urn-2a",
+            architecture="arm64",
+            sku="sku-2a",
+            offer="offer-2a",
+            version="1.5",
+            urn="urn-2a",
+        ),
+        AzureImage(
+            id="urn-1b",
+            architecture="x64",
+            sku="sku-1b",
+            offer="offer-1b",
+            version="2.0",
+            urn="urn-1b",
+        ),
+        AzureImage(
+            id="urn-2b",
+            architecture="x64",
+            sku="sku-2b",
+            offer="offer-2b",
+            version="1.0",
+            urn="urn-2b",
+        ),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.latest_azure_image(db, "x64")
+    assert result["x64"]["sku"] == "sku-1b"
+    assert result["x64"]["version"] == "2.0"
+    assert "arm64" not in result
 
 
 def test_latest_google_image_no_images(db):

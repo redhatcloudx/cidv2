@@ -1,7 +1,7 @@
 import logging
 import threading
 from time import sleep
-from typing import Any, Dict, Generator
+from typing import Any, Dict, Generator, Optional
 
 from fastapi import Depends, FastAPI
 from fastapi.encoders import jsonable_encoder
@@ -57,6 +57,14 @@ def single_aws_image(image_id: str, db: Session = Depends(get_db)) -> dict:  # n
 def match_aws_image(image_id: str, db: Session = Depends(get_db)) -> dict:  # noqa: B008
     result = crud.find_matching_ami(db, image_id)
     return result
+
+
+@app.get("/azure/latest")
+def latest_azure_image(
+    db: Session = Depends(get_db),  # noqa: B008
+    arch: Optional[str] = None,
+) -> dict:
+    return crud.latest_azure_image(db, arch)
 
 
 @app.get("/versions")

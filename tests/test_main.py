@@ -34,6 +34,10 @@ def load_test_data():
         images = json.load(fileh)
     crud.import_aws_images(db, images)
 
+    with open("tests/data/azure.json") as fileh:
+        images = json.load(fileh)
+    crud.import_azure_images(db, images)
+
 
 app.dependency_overrides[get_db] = override_get_db
 
@@ -110,3 +114,21 @@ def test_match_aws_image():
     assert response.json()["name"] == "RHEL_HA-9.4.0_HVM-20240605-x86_64-82-Hourly2-GP3"
     assert "ami" in response.json()["matching_images"][0]
     assert "region" in response.json()["matching_images"][0]
+
+
+@patch("cid.crud.latest_azure_image")
+def test_latest_azure_image(mock_azure):
+    mock_azure.return_value = {
+        "sku": "sku-a",
+        "offer": "offer-a",
+        "version": "2.0",
+        "urn": "urn-b",
+    }
+
+    response = client.get("/azure/latest")
+    result = response.json()
+
+    assert result["sku"] == "sku-a"
+    assert result["offer"] == "offer-a"
+    assert result["version"] == "2.0"
+    assert result["urn"] == "urn-b"
