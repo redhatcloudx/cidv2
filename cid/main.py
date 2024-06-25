@@ -1,7 +1,7 @@
 import logging
 import threading
 from time import sleep
-from typing import Any, Dict, Generator
+from typing import Generator, Optional
 
 from fastapi import Depends, FastAPI
 from fastapi.encoders import jsonable_encoder
@@ -32,19 +32,15 @@ def read_root() -> dict:
     return {"Hello": "World"}
 
 
-@app.get("/latest")
-def latest(db: Session = Depends(get_db)) -> Dict[str, Any]:  # noqa: B008
-    return {
-        "latest_aws_image": crud.latest_aws_image(db),
-        "latest_azure_image": crud.latest_azure_image(db),
-        "latest_google_image": crud.latest_google_image(db),
-    }
-
-
 @app.get("/aws")
 def all_aws_images(db: Session = Depends(get_db)) -> list:  # noqa: B008
     result = db.query(AwsImage).order_by(AwsImage.creationDate.desc()).all()
     return list(jsonable_encoder(result))
+
+
+@app.get("/aws/latest")
+def latest_aws_image(db: Session = Depends(get_db), arch: Optional[str] = None) -> dict:  # noqa: B008
+    return crud.latest_aws_image(db, arch)
 
 
 @app.get("/aws/{image_id}")
