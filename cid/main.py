@@ -1,20 +1,27 @@
-import logging
-import threading
-from time import sleep
+from logging import getLogger
+from os import getenv
+from sys import exit
 from typing import Generator, Optional
 
 from fastapi import Depends, FastAPI
 from fastapi.encoders import jsonable_encoder
-from schedule import every, repeat, run_all, run_pending
 from sqlalchemy.orm import Session
 
 from cid import crud
-from cid.config import ENVIRONMENT
 from cid.database import SessionLocal
 from cid.models import AwsImage
-from cid.utils import wait_for_database
 
-log = logging.getLogger(__name__)
+log = getLogger(__name__)
+
+# Pack the database into the container build and then exit immediately.
+if getenv("POPULATE_DB_ONLY", "0") == "1":
+    log.info("Only populating the database.")
+
+    db = SessionLocal()
+    crud.update_image_data(db)
+
+    log.info("Database population complete. Exiting.")
+    exit(0)
 
 app = FastAPI()
 
@@ -66,26 +73,3 @@ def latest_azure_image(
 @app.get("/versions")
 def versions(db: Session = Depends(get_db)) -> list:  # noqa: B008
     return crud.find_available_versions(db)
-
-
-@repeat(every(24).hours)
-def self_update_image_data() -> None:
-    """Update the database with new image data."""
-    db = SessionLocal()
-    wait_for_database(db)
-    crud.update_image_data(db)
-
-
-def run_schedule() -> None:
-    """Background task to run the scheduled tasks."""
-    run_all()
-    while True:
-        run_pending()
-        sleep(1)
-
-
-# Run the schedule in a separate thread
-# NOTE(major): Pytest runs this code for some reason. This is a workaround.
-if ENVIRONMENT != "testing":
-    schedule_thread = threading.Thread(target=run_schedule)
-    schedule_thread.start()
