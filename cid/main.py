@@ -63,6 +63,14 @@ def latest_azure_image(
     return crud.latest_azure_image(db, arch)
 
 
+@app.get("/google/latest")
+def latest_google_image(
+    db: Session = Depends(get_db),  # noqa: B008
+    arch: Optional[str] = None,
+) -> dict:
+    return crud.latest_google_image(db, arch)
+
+
 @app.get("/aws/versions")
 def aws_versions(db: Session = Depends(get_db)) -> list:  # noqa: B008
     return crud.find_available_aws_versions(db)
