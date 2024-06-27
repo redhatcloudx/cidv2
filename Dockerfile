@@ -10,4 +10,5 @@ RUN poetry install --no-interaction --no-ansi --no-root --no-dev
 COPY cid /code/cid/
 COPY import_data.py /code/
 COPY README.md /code/
-CMD ["poetry", "run", "uvicorn", "cid.main:app", "--host 0.0.0.0", "--port 80"]
+RUN env ENVIRONMENT=production poetry run populatedb
+CMD ["poetry", "run", "uvicorn", "--host", "0.0.0.0", "--port", "80", "cid.main:app"]
