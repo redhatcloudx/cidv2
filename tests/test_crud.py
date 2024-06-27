@@ -336,7 +336,7 @@ def test_find_matching_ami(db):
     ]
 
 
-def test_find_available_versions(db):
+def test_find_available_aws_versions(db):
     images = [
         AwsImage(id="ami-a", version="8.2.0"),
         AwsImage(id="ami-b", version="7.9.0"),
@@ -347,7 +347,37 @@ def test_find_available_versions(db):
     db.add_all(images)
     db.commit()
 
-    result = crud.find_available_versions(db)
+    result = crud.find_available_aws_versions(db)
+    assert result == ["10.0.0", "9.5.0", "8.2.0", "7.9.0"]
+
+
+def test_find_available_azure_versions(db):
+    images = [
+        AzureImage(id="urn-a", version="8.2.2023122216"),
+        AzureImage(id="urn-b", version="7.9.2023122216"),
+        AzureImage(id="urn-c", version="9.5.2023122216"),
+        AzureImage(id="urn-d", version="10.0.2023122216"),
+        AzureImage(id="urn-e", version="9.5.2023122216"),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.find_available_azure_versions(db)
+    assert result == ["10.0", "9.5", "8.2", "7.9"]
+
+
+def test_find_available_google_versions(db):
+    images = [
+        GoogleImage(id="id-a", version="8.2.0"),
+        GoogleImage(id="id-b", version="7.9.0"),
+        GoogleImage(id="id-c", version="9.5.0"),
+        GoogleImage(id="id-d", version="10.0.0"),
+        GoogleImage(id="id-e", version="9.5.0"),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.find_available_google_versions(db)
     assert result == ["10.0.0", "9.5.0", "8.2.0", "7.9.0"]
 
 

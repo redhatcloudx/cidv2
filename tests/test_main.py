@@ -89,11 +89,29 @@ def test_latest_aws_image_query_for_arch(mock_aws):
     assert result["amis"] == {"us-west-1": "ami-12345678"}
 
 
-@patch("cid.crud.find_available_versions")
-def test_versions(mock_versions):
+@patch("cid.crud.find_available_aws_versions")
+def test_aws_versions(mock_versions):
     mock_versions.return_value = ["8.9.0", "9.2.0", "10.0.0"]
 
-    response = client.get("/versions")
+    response = client.get("/aws/versions")
+    assert response.status_code == 200
+    assert response.json() == ["8.9.0", "9.2.0", "10.0.0"]
+
+
+@patch("cid.crud.find_available_azure_versions")
+def test_azure_versions(mock_versions):
+    mock_versions.return_value = ["8.9.0", "9.2.0", "10.0.0"]
+
+    response = client.get("/azure/versions")
+    assert response.status_code == 200
+    assert response.json() == ["8.9.0", "9.2.0", "10.0.0"]
+
+
+@patch("cid.crud.find_available_google_versions")
+def test_google_versions(mock_versions):
+    mock_versions.return_value = ["8.9.0", "9.2.0", "10.0.0"]
+
+    response = client.get("/google/versions")
     assert response.status_code == 200
     assert response.json() == ["8.9.0", "9.2.0", "10.0.0"]
 
@@ -105,7 +123,7 @@ def test_all_aws_images():
 
 
 def test_single_aws_image():
-    response = client.get("/aws/ami-08a20c15f394e5531")
+    response = client.get("/aws/image/ami-08a20c15f394e5531")
     assert response.status_code == 200
     assert response.json()["name"] == "RHEL_HA-9.4.0_HVM-20240605-x86_64-82-Hourly2-GP3"
 

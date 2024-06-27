@@ -287,7 +287,7 @@ def find_matching_ami(db: Session, image_id: str) -> dict:
     }
 
 
-def find_available_versions(db: Session) -> list:
+def find_available_aws_versions(db: Session) -> list:
     """Return all RHEL versions available from AWS.
 
     It would be good to add the other providers later, but this data is so much easier
@@ -302,6 +302,35 @@ def find_available_versions(db: Session) -> list:
     """
     # Get all images with the given name.
     versions = [x.version for x in db.query(AwsImage.version).distinct()]
+
+    return sorted(versions, key=Version, reverse=True)
+
+
+def find_available_azure_versions(db: Session) -> list:
+    """Return all RHEL versions available from Azure.
+
+    Args:
+        db (Session): database session name
+    Returns:
+        list: list of available versions
+    """
+    query = db.query(AzureImage.version).distinct()
+
+    versions = [".".join(x.version.split(".")[:2]) for x in query]
+    versions = list(set(versions))
+
+    return sorted(versions, key=Version, reverse=True)
+
+
+def find_available_google_versions(db: Session) -> list:
+    """Return all RHEL versions available from Google Cloud.
+
+    Args:
+        db (Session): database session name
+    Returns:
+        list: list of available versions
+    """
+    versions = [x.version for x in db.query(GoogleImage.version).distinct()]
 
     return sorted(versions, key=Version, reverse=True)
 
