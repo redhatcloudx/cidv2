@@ -12,7 +12,6 @@ from cid import crud
 from cid.config import ENVIRONMENT
 from cid.database import SessionLocal
 from cid.models import AwsImage
-from cid.utils import wait_for_database
 
 log = logging.getLogger(__name__)
 
@@ -90,7 +89,6 @@ def google_versions(db: Session = Depends(get_db)) -> list:  # noqa: B008
 def self_update_image_data() -> None:
     """Update the database with new image data."""
     db = SessionLocal()
-    wait_for_database(db)
     crud.update_image_data(db)
 
 
