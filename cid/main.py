@@ -43,7 +43,7 @@ def latest_aws_image(db: Session = Depends(get_db), arch: Optional[str] = None) 
     return crud.latest_aws_image(db, arch)
 
 
-@app.get("/aws/{image_id}")
+@app.get("/aws/image/{image_id}")
 def single_aws_image(image_id: str, db: Session = Depends(get_db)) -> dict:  # noqa: B008
     result = db.query(AwsImage).filter(AwsImage.id == image_id).first()
     return dict(jsonable_encoder(result))
@@ -63,9 +63,19 @@ def latest_azure_image(
     return crud.latest_azure_image(db, arch)
 
 
-@app.get("/versions")
-def versions(db: Session = Depends(get_db)) -> list:  # noqa: B008
-    return crud.find_available_versions(db)
+@app.get("/aws/versions")
+def aws_versions(db: Session = Depends(get_db)) -> list:  # noqa: B008
+    return crud.find_available_aws_versions(db)
+
+
+@app.get("/azure/versions")
+def azure_versions(db: Session = Depends(get_db)) -> list:  # noqa: B008
+    return crud.find_available_azure_versions(db)
+
+
+@app.get("/google/versions")
+def google_versions(db: Session = Depends(get_db)) -> list:  # noqa: B008
+    return crud.find_available_google_versions(db)
 
 
 @repeat(every(24).hours)
