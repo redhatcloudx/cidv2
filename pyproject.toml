@@ -101,3 +101,6 @@ preview = true
 
 [tool.ruff.per-file-ignores]
 "tests/*" = ["S101"]
+
+[tool.poetry.scripts]
+populatedb = "cid.bootstrap:populate_db"

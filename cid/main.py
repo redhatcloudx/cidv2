@@ -15,6 +15,7 @@ from cid.models import AwsImage
 
 log = logging.getLogger(__name__)
 
+
 app = FastAPI()
 
 
