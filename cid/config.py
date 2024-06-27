@@ -7,7 +7,10 @@ ENVIRONMENT = os.getenv("ENVIRONMENT", "testing")
 
 # Database connection string.
 DATABASE_URLS = {
-    "production": "postgresql://postgres:postgres@db:5432/test_db",
+    # NOTE(mhayden): The four slashes in the production database path ensures
+    # that an absolute path is used.
+    "production": "sqlite:////cid.db",
+    # In-memory databases are much faster for testing.
     "testing": "sqlite:///:memory:",
 }
 DATABASE_URL = DATABASE_URLS[ENVIRONMENT]
