@@ -38,6 +38,10 @@ def load_test_data():
         images = json.load(fileh)
     crud.import_azure_images(db, images)
 
+    with open("tests/data/google.json") as fileh:
+        images = json.load(fileh)
+    crud.import_google_images(db, images)
+
 
 app.dependency_overrides[get_db] = override_get_db
 
@@ -152,3 +156,45 @@ def test_latest_azure_image(mock_azure):
     assert result["offer"] == "offer-a"
     assert result["version"] == "2.0"
     assert result["urn"] == "urn-b"
+
+
+@patch("cid.crud.latest_google_image")
+def test_latest_google_image(mock_google):
+    mock_google.return_value = {
+        "name": "test_image",
+        "arch": "X86_64",
+        "version": "1.0",
+        "date": "2022-01-01",
+        "selfLink": "link",
+    }
+
+    response = client.get("/google/latest")
+    result = response.json()
+
+    assert response.status_code == 200
+    assert result["name"] == "test_image"
+    assert result["arch"] == "X86_64"
+    assert result["version"] == "1.0"
+    assert result["date"] == "2022-01-01"
+    assert result["selfLink"] == "link"
+
+
+@patch("cid.crud.latest_google_image")
+def test_latest_google_image_query_for_arch(mock_google):
+    mock_google.return_value = {
+        "name": "test_image",
+        "arch": "X86_64",
+        "version": "1.0",
+        "date": "2022-01-01",
+        "selfLink": "link",
+    }
+
+    response = client.get("/google/latest?arch=x86_64")
+    result = response.json()
+
+    assert response.status_code == 200
+    assert result["name"] == "test_image"
+    assert result["arch"] == "X86_64"
+    assert result["version"] == "1.0"
+    assert result["date"] == "2022-01-01"
+    assert result["selfLink"] == "link"

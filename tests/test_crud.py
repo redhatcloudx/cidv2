@@ -258,21 +258,42 @@ def test_latest_azure_image_query_arch(db):
 
 
 def test_latest_google_image_no_images(db):
-    result = crud.latest_google_image(db)
-    assert result == {"error": "No images found", "code": 404}
+    result = crud.latest_google_image(db, None)
+    assert result == {"error": "No images found for Google Cloud", "code": 404}
 
 
-def test_latest_google_image(db):
+def test_latest_google_image_wrong_arch(db):
+    result = crud.latest_google_image(db, "ARM32")
+    assert result == {"error": "No images found for Google Cloud", "code": 404}
+
+
+def test_latest_google_image_multiple_arch(db):
     images = [
         GoogleImage(
-            id="image-a",
-            name="test_image_1",
+            id="image-1a",
+            arch="X86_64",
+            name="test_image_1a",
             version="1.0",
             creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
         ),
         GoogleImage(
-            id="image-b",
-            name="test_image_2",
+            id="image-2a",
+            arch="X86_64",
+            name="test_image_2a",
+            version="2.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+        GoogleImage(
+            id="image-1b",
+            arch="ARM64",
+            name="test_image_1b",
+            version="1.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+        GoogleImage(
+            id="image-2b",
+            arch="ARM64",
+            name="test_image_2b",
             version="2.0",
             creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
         ),
@@ -280,9 +301,51 @@ def test_latest_google_image(db):
     db.add_all(images)
     db.commit()
 
-    result = crud.latest_google_image(db)
-    assert result["name"] == "test_image_2"
-    assert result["version"] == "2.0"
+    result = crud.latest_google_image(db, None)
+    assert result["X86_64"]["name"] == "test_image_2a"
+    assert result["X86_64"]["version"] == "2.0"
+    assert result["ARM64"]["name"] == "test_image_2b"
+    assert result["ARM64"]["version"] == "2.0"
+
+
+def test_latest_google_image_query_arch(db):
+    images = [
+        GoogleImage(
+            id="image-1a",
+            arch="X86_64",
+            name="test_image_1a",
+            version="1.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+        GoogleImage(
+            id="image-2a",
+            arch="X86_64",
+            name="test_image_2a",
+            version="2.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+        GoogleImage(
+            id="image-1b",
+            arch="ARM64",
+            name="test_image_1b",
+            version="1.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+        GoogleImage(
+            id="image-2b",
+            arch="ARM64",
+            name="test_image_2b",
+            version="2.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.latest_google_image(db, "X86_64")
+    assert result["X86_64"]["name"] == "test_image_2a"
+    assert result["X86_64"]["version"] == "2.0"
+    assert "ARM64" not in result
 
 
 def test_import_aws_images(db):

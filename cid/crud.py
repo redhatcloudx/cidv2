@@ -106,23 +106,36 @@ def latest_azure_image(db: Session, arch: Optional[str]) -> dict[str, Any]:
     return latest_images_dict
 
 
-def latest_google_image(db: Session) -> dict:
+def latest_google_image(db: Session, arch: Optional[str]) -> dict:
     """Get the latest RHEL image on Google Cloud."""
-    latest_image = (
-        db.query(GoogleImage)
-        .order_by(desc(GoogleImage.version), desc(GoogleImage.creationTimestamp))
-        .first()
+    archs = (
+        [arch]
+        if arch is not None
+        else [arch[0] for arch in db.query(GoogleImage.arch).distinct().all()]
     )
+    latest_images_dict = {}
+    for arch in archs:
+        latest_image = (
+            db.query(GoogleImage)
+            .filter(GoogleImage.arch.ilike(arch))
+            .order_by(desc(GoogleImage.version), desc(GoogleImage.creationTimestamp))
+            .first()
+        )
 
-    if latest_image is None:
-        return {"error": "No images found", "code": 404}
+        if latest_image is None:
+            return {"error": "No images found for Google Cloud", "code": 404}
 
-    return {
-        "name": latest_image.name,
-        "version": latest_image.version,
-        "date": latest_image.creationTimestamp,
-        "selfLink": latest_image.selfLink,
-    }
+        latest_images_dict[arch] = {
+            "name": latest_image.name,
+            "version": latest_image.version,
+            "date": latest_image.creationTimestamp,
+            "selfLink": latest_image.selfLink,
+        }
+
+    if not latest_images_dict:
+        return {"error": "No images found for Google Cloud", "code": 404}
+
+    return latest_images_dict
 
 
 def import_aws_images(db: Session, images: list) -> None:
