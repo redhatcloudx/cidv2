@@ -5,7 +5,7 @@ from typing import Generator, Optional
 
 from fastapi import Depends, FastAPI
 from fastapi.encoders import jsonable_encoder
-from schedule import every, repeat, run_all, run_pending
+from schedule import every, repeat, run_pending
 from sqlalchemy.orm import Session
 
 from cid import crud
@@ -95,7 +95,6 @@ def self_update_image_data() -> None:
 
 def run_schedule() -> None:
     """Background task to run the scheduled tasks."""
-    run_all()
     while True:
         run_pending()
         sleep(1)
