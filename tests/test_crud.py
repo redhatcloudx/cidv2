@@ -434,14 +434,31 @@ def test_find_available_google_versions(db):
         GoogleImage(id="id-a", version="8.2.0"),
         GoogleImage(id="id-b", version="7.9.0"),
         GoogleImage(id="id-c", version="9.5.0"),
-        GoogleImage(id="id-d", version="10.0.0"),
-        GoogleImage(id="id-e", version="9.5.0"),
+        GoogleImage(id="id-d", version="9.7.3"),
+        GoogleImage(id="id-e", version="10.0.0"),
+        GoogleImage(id="id-g", version="9.5.0"),
+        GoogleImage(id="id-h", version="9.7.arm64"),
+        GoogleImage(id="id-i", version="9.7.arm64"),
+        GoogleImage(id="id-j", version="9.arm64"),
+        GoogleImage(id="id-k", version="9.arm64"),
+        GoogleImage(id="id-l", version="9.7.1.arm64"),
+        GoogleImage(id="id-m", version="9.7.1.arm64"),
     ]
     db.add_all(images)
     db.commit()
 
     result = crud.find_available_google_versions(db)
-    assert result == ["10.0.0", "9.5.0", "8.2.0", "7.9.0"]
+
+    assert result == [
+        "10.0.0",
+        "9.7.3",
+        "9.7.1.arm64",
+        "9.7.arm64",
+        "9.5.0",
+        "9.arm64",
+        "8.2.0",
+        "7.9.0",
+    ]
 
 
 def test_find_images_for_version(db):
