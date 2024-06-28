@@ -368,3 +368,36 @@ def find_images_for_version(db: Session, version: str) -> list:
         print(image.id)
 
     return [{"ami": x.id, "name": x.name} for x in images]
+
+
+def find_aws_images(
+    db: Session,
+    arch: Optional[str] = None,
+    version: Optional[str] = None,
+    name: Optional[str] = None,
+    region: Optional[str] = None,
+) -> list:
+    """Return all AWS images that match the given criteria.
+
+    Args:
+        db (Session): database session
+        arch (Optional[str]): architecture to search
+        version (Optional[str]): RHEL version to search
+        name (Optional[str]): image name to search
+        region (Optional[str]): AWS region to search
+
+    Returns:
+        list: list of images that match the given criteria
+    """
+    query = db.query(AwsImage).order_by(AwsImage.creationDate.desc())
+
+    if arch:
+        query = query.filter(AwsImage.arch == arch)
+    if version:
+        query = query.filter(AwsImage.version == version)
+    if name:
+        query = query.filter(AwsImage.name.contains(name))
+    if region:
+        query = query.filter(AwsImage.region == region)
+
+    return query.all()

@@ -61,7 +61,7 @@ def test_latest_aws_image(mock_aws):
         "name": "test_image",
         "version": "1.0",
         "date": "2022-01-01",
-        "amis": {"us-west-1": "ami-12345678"},
+        "amis": {"af-south-1": "ami-12345678"},
     }
 
     response = client.get("/aws/latest")
@@ -71,7 +71,7 @@ def test_latest_aws_image(mock_aws):
     assert result["name"] == "test_image"
     assert result["version"] == "1.0"
     assert result["date"] == "2022-01-01"
-    assert result["amis"] == {"us-west-1": "ami-12345678"}
+    assert result["amis"] == {"af-south-1": "ami-12345678"}
 
 
 @patch("cid.crud.latest_aws_image")
@@ -80,7 +80,7 @@ def test_latest_aws_image_query_for_arch(mock_aws):
         "name": "test_image",
         "version": "1.0",
         "date": "2022-01-01",
-        "amis": {"us-west-1": "ami-12345678"},
+        "amis": {"af-south-1": "ami-12345678"},
     }
 
     response = client.get("/aws/latest?arch=x86_64")
@@ -90,7 +90,7 @@ def test_latest_aws_image_query_for_arch(mock_aws):
     assert result["name"] == "test_image"
     assert result["version"] == "1.0"
     assert result["date"] == "2022-01-01"
-    assert result["amis"] == {"us-west-1": "ami-12345678"}
+    assert result["amis"] == {"af-south-1": "ami-12345678"}
 
 
 @patch("cid.crud.find_available_aws_versions")
@@ -124,6 +124,62 @@ def test_all_aws_images():
     response = client.get("/aws")
     assert response.status_code == 200
     assert len(response.json()) == 500
+
+
+def test_all_aws_images_with_query():
+    response = client.get("/aws?version=9.4.0")
+    assert response.status_code == 200
+    assert response.json()[0]["version"] == "9.4.0"
+
+
+def test_all_aws_images_with_query_region():
+    response = client.get("/aws?region=af-south-1")
+    assert response.status_code == 200
+    assert response.json()[0]["region"] == "af-south-1"
+
+
+def test_all_aws_images_with_query_arch():
+    response = client.get("/aws?arch=x86_64")
+    assert response.status_code == 200
+    assert response.json()[0]["arch"] == "x86_64"
+
+
+def test_all_aws_images_with_query_name():
+    response = client.get("/aws?name=RHEL_HA-9.4.0_HVM-20240605-x86_64-82-Hourly2-GP3")
+    assert response.status_code == 200
+    assert (
+        response.json()[0]["name"] == "RHEL_HA-9.4.0_HVM-20240605-x86_64-82-Hourly2-GP3"
+    )
+
+
+def test_all_aws_images_with_query_combination():
+    response = client.get(
+        "/aws"
+        + "?name=RHEL_HA-9.4.0_HVM-20240605-x86_64-82-Hourly2-GP3"
+        + "&region=af-south-1"
+        + "&version=9.4.0"
+        + "&arch=x86_64"
+    )
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+    assert (
+        response.json()[0]["name"] == "RHEL_HA-9.4.0_HVM-20240605-x86_64-82-Hourly2-GP3"
+    )
+    assert response.json()[0]["region"] == "af-south-1"
+    assert response.json()[0]["version"] == "9.4.0"
+    assert response.json()[0]["arch"] == "x86_64"
+
+
+def test_all_aws_images_with_query_combination_no_match():
+    response = client.get(
+        "/aws"
+        + "?name=THIS_DOES_NOT_EXIST"
+        + "&region=af-south-1"
+        + "&version=9.4.0"
+        + "&arch=arm64"
+    )
+    assert response.status_code == 200
+    assert len(response.json()) == 0
 
 
 def test_single_aws_image():

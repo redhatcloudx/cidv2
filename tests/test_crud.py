@@ -478,3 +478,72 @@ def test_find_images_for_version(db):
         {"ami": "ami-c", "name": "RHEL-9.5.0v1"},
         {"ami": "ami-e", "name": "RHEL-9.5.0v2"},
     ]
+
+
+def test_find_aws_images(db):
+    images = [
+        AwsImage(
+            id="ami-a",
+            name="RHEL-8.2.0",
+            version="8.2.0",
+            arch="x86_64",
+            region="us-west-1",
+        ),
+        AwsImage(
+            id="ami-b",
+            name="RHEL-7.9.0",
+            version="7.9.0",
+            arch="x86_64",
+            region="us-west-1",
+        ),
+        AwsImage(
+            id="ami-c",
+            name="RHEL-9.5.0",
+            version="9.5.0",
+            arch="x86_64",
+            region="us-west-1",
+        ),
+        AwsImage(
+            id="ami-d",
+            name="RHEL-10.0.0",
+            version="10.0.0",
+            arch="x86_64",
+            region="us-west-2",
+        ),
+        AwsImage(
+            id="ami-e",
+            name="RHEL-9.5.0",
+            version="9.5.0",
+            arch="arm64",
+            region="us-west-2",
+        ),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.find_aws_images(db, None, None, None, None)
+    assert len(result) == 5
+
+    result = crud.find_aws_images(db, "arm64", None, None, None)
+    assert len(result) == 1
+    assert result[0].name == "RHEL-9.5.0"
+    assert result[0].arch == "arm64"
+    assert result[0].region == "us-west-2"
+
+    result = crud.find_aws_images(db, None, "9.5.0", None, None)
+    assert len(result) == 2
+    assert result[0].name == "RHEL-9.5.0"
+    assert result[0].arch == "x86_64"
+    assert result[0].region == "us-west-1"
+    assert result[1].name == "RHEL-9.5.0"
+    assert result[1].arch == "arm64"
+    assert result[1].region == "us-west-2"
+
+    result = crud.find_aws_images(db, None, None, "10.0.0", None)
+    assert len(result) == 1
+    assert result[0].name == "RHEL-10.0.0"
+    assert result[0].arch == "x86_64"
+    assert result[0].region == "us-west-2"
+
+    result = crud.find_aws_images(db, None, None, None, "us-west-1")
+    assert len(result) == 3
