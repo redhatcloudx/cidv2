@@ -345,7 +345,11 @@ def find_available_google_versions(db: Session) -> list:
     """
     versions = [x.version for x in db.query(GoogleImage.version).distinct()]
 
-    return sorted(versions, key=Version, reverse=True)
+    def version_key(version: str) -> Version:
+        parts = [part for part in version.split(".") if part.isdigit()]
+        return Version(".".join(parts))
+
+    return sorted(versions, key=version_key, reverse=True)
 
 
 def find_images_for_version(db: Session, version: str) -> list:
