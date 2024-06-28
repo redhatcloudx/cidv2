@@ -33,8 +33,14 @@ def read_root() -> dict:
 
 
 @app.get("/aws")
-def all_aws_images(db: Session = Depends(get_db)) -> list:  # noqa: B008
-    result = db.query(AwsImage).order_by(AwsImage.creationDate.desc()).all()
+def all_aws_images(
+    db: Session = Depends(get_db),  # noqa: B008
+    arch: Optional[str] = None,
+    version: Optional[str] = None,
+    name: Optional[str] = None,
+    region: Optional[str] = None,
+) -> list:
+    result = crud.find_aws_images(db, arch, version, name, region)
     return list(jsonable_encoder(result))
 
 
