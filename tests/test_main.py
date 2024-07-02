@@ -123,32 +123,47 @@ def test_google_versions(mock_versions):
 def test_all_aws_images():
     response = client.get("/aws")
     assert response.status_code == 200
-    assert len(response.json()) == 500
+    assert len(response.json()["results"]) == 100
+    assert response.json()["page"] == 1
+    assert response.json()["page_size"] == 100
+    assert response.json()["total_count"] == 500
+    assert response.json()["total_pages"] == 5
+
+
+def test_all_aws_images_paginated():
+    response = client.get("/aws?page=2&page_size=1")
+    assert response.status_code == 200
+    assert len(response.json()["results"]) == 1
+    assert response.json()["page"] == 2
+    assert response.json()["page_size"] == 1
+    assert response.json()["total_count"] == 500
+    assert response.json()["total_pages"] == 500
 
 
 def test_all_aws_images_with_query():
     response = client.get("/aws?version=9.4.0")
     assert response.status_code == 200
-    assert response.json()[0]["version"] == "9.4.0"
+    assert response.json()["results"][0]["version"] == "9.4.0"
 
 
 def test_all_aws_images_with_query_region():
     response = client.get("/aws?region=af-south-1")
     assert response.status_code == 200
-    assert response.json()[0]["region"] == "af-south-1"
+    assert response.json()["results"][0]["region"] == "af-south-1"
 
 
 def test_all_aws_images_with_query_arch():
     response = client.get("/aws?arch=x86_64")
     assert response.status_code == 200
-    assert response.json()[0]["arch"] == "x86_64"
+    assert response.json()["results"][0]["arch"] == "x86_64"
 
 
 def test_all_aws_images_with_query_name():
     response = client.get("/aws?name=RHEL_HA-9.4.0_HVM-20240605-x86_64-82-Hourly2-GP3")
     assert response.status_code == 200
     assert (
-        response.json()[0]["name"] == "RHEL_HA-9.4.0_HVM-20240605-x86_64-82-Hourly2-GP3"
+        response.json()["results"][0]["name"]
+        == "RHEL_HA-9.4.0_HVM-20240605-x86_64-82-Hourly2-GP3"
     )
 
 
@@ -161,13 +176,14 @@ def test_all_aws_images_with_query_combination():
         + "&arch=x86_64"
     )
     assert response.status_code == 200
-    assert len(response.json()) == 1
+    assert len(response.json()["results"]) == 1
     assert (
-        response.json()[0]["name"] == "RHEL_HA-9.4.0_HVM-20240605-x86_64-82-Hourly2-GP3"
+        response.json()["results"][0]["name"]
+        == "RHEL_HA-9.4.0_HVM-20240605-x86_64-82-Hourly2-GP3"
     )
-    assert response.json()[0]["region"] == "af-south-1"
-    assert response.json()[0]["version"] == "9.4.0"
-    assert response.json()[0]["arch"] == "x86_64"
+    assert response.json()["results"][0]["region"] == "af-south-1"
+    assert response.json()["results"][0]["version"] == "9.4.0"
+    assert response.json()["results"][0]["arch"] == "x86_64"
 
 
 def test_all_aws_images_with_query_combination_no_match():
@@ -179,7 +195,7 @@ def test_all_aws_images_with_query_combination_no_match():
         + "&arch=arm64"
     )
     assert response.status_code == 200
-    assert len(response.json()) == 0
+    assert len(response.json()["results"]) == 0
 
 
 def test_single_aws_image():
