@@ -638,3 +638,159 @@ def test_find_aws_images_paginated(db):
     assert result["page_size"] == 1
     assert result["total_count"] == 5
     assert result["total_pages"] == 5
+
+
+def test_find_azure_images(db):
+    images = [
+        AzureImage(
+            id="urn-a",
+            architecture="x64",
+            sku="sku-a",
+            offer="offer-a",
+            urn="urn-a",
+            version="8.2.2023122216",
+        ),
+        AzureImage(
+            id="urn-b",
+            architecture="x64",
+            sku="sku-b",
+            offer="offer-b",
+            urn="urn-b",
+            version="7.9.2023122216",
+        ),
+        AzureImage(
+            id="urn-c",
+            architecture="x64",
+            sku="sku-c",
+            offer="offer-c",
+            urn="urn-c",
+            version="9.5.2023122216",
+        ),
+        AzureImage(
+            id="urn-d",
+            architecture="x64",
+            sku="sku-d",
+            offer="offer-d",
+            urn="urn-d",
+            version="10.0.2023122216",
+        ),
+        AzureImage(
+            id="urn-e",
+            architecture="x64",
+            sku="sku-e",
+            urn="urn-e",
+            version="9.5.2023122216",
+        ),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.find_azure_images(db, None, None, None)
+    assert len(result["results"]) == 5
+
+    result = crud.find_azure_images(db, "x64", None, None)
+    assert len(result["results"]) == 5
+
+    result = crud.find_azure_images(db, None, "9.5", None)
+    assert len(result["results"]) == 2
+
+    result = crud.find_azure_images(db, None, None, "urn-c")
+    assert len(result["results"]) == 1
+
+    result = crud.find_azure_images(db, "x64", "10.0", "urn-d")
+    assert len(result["results"]) == 1
+
+
+def test_find_azure_images_paginated(db):
+    images = [
+        AzureImage(
+            id="urn-a",
+            architecture="x64",
+            sku="sku-a",
+            offer="offer-a",
+            urn="urn-a",
+            version="8.2.2023122216",
+        ),
+        AzureImage(
+            id="urn-b",
+            architecture="x64",
+            sku="sku-b",
+            offer="offer-b",
+            urn="urn-b",
+            version="7.9.2023122216",
+        ),
+        AzureImage(
+            id="urn-c",
+            architecture="x64",
+            sku="sku-c",
+            offer="offer-c",
+            urn="urn-c",
+            version="9.5.2023122216",
+        ),
+        AzureImage(
+            id="urn-d",
+            architecture="x64",
+            sku="sku-d",
+            offer="offer-d",
+            urn="urn-d",
+            version="10.0.2023122216",
+        ),
+        AzureImage(
+            id="urn-e",
+            architecture="x64",
+            sku="sku-e",
+            urn="urn-e",
+            version="9.5.2023122216",
+        ),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.find_azure_images(db, None, None, None)
+    assert len(result["results"]) == 5
+    assert result["page"] == 1
+    assert result["page_size"] == 100
+    assert result["total_count"] == 5
+    assert result["total_pages"] == 1
+
+    result = crud.find_azure_images(db, None, None, None, 1, 1)
+    assert len(result["results"]) == 1
+    assert result["page"] == 1
+    assert result["page_size"] == 1
+    assert result["total_count"] == 5
+    assert result["total_pages"] == 5
+
+    result = crud.find_azure_images(db, None, None, None, 2, 1)
+    assert len(result["results"]) == 1
+    assert result["page"] == 2
+    assert result["page_size"] == 1
+    assert result["total_count"] == 5
+    assert result["total_pages"] == 5
+
+    result = crud.find_azure_images(db, None, None, None, 6, 1)
+    assert len(result["results"]) == 0
+    assert result["page"] == 6
+    assert result["page_size"] == 1
+    assert result["total_count"] == 5
+    assert result["total_pages"] == 5
+
+    result = crud.find_azure_images(db, None, None, None, 1, 1000)
+    assert len(result["results"]) == 5
+    assert result["page"] == 1
+    assert result["page_size"] == 1000
+    assert result["total_count"] == 5
+    assert result["total_pages"] == 1
+
+    result = crud.find_azure_images(db, None, None, None, -1, 10)
+    assert len(result["results"]) == 5
+    assert result["page"] == 1
+    assert result["page_size"] == 10
+    assert result["total_count"] == 5
+    assert result["total_pages"] == 1
+
+    result = crud.find_azure_images(db, None, None, None, 1, -10)
+    assert len(result["results"]) == 1
+    assert result["page"] == 1
+    assert result["page_size"] == 1
+    assert result["total_count"] == 5
+    assert result["total_pages"] == 5

@@ -212,6 +212,65 @@ def test_match_aws_image():
     assert "region" in response.json()["matching_images"][0]
 
 
+def test_all_azure_images():
+    response = client.get("/azure")
+    assert response.status_code == 200
+    assert len(response.json()["results"]) == 100
+    assert response.json()["page"] == 1
+    assert response.json()["page_size"] == 100
+    assert response.json()["total_count"] == 152
+    assert response.json()["total_pages"] == 2
+
+
+def test_all_azure_images_with_query():
+    response = client.get("/azure?version=7.9.2023062711")
+    assert response.status_code == 200
+    assert response.json()["results"][0]["version"] == "7.9.2023062711"
+
+
+def test_all_azure_images_with_query_urn():
+    response = client.get("/azure?urn=redhat-rhel:rh-rhel:rh-rhel7:7.9.2023062711")
+    assert response.status_code == 200
+    assert (
+        response.json()["results"][0]["urn"]
+        == "redhat-rhel:rh-rhel:rh-rhel7:7.9.2023062711"
+    )
+
+
+def test_all_azure_images_with_query_arch():
+    response = client.get("/azure?arch=x64")
+    assert response.status_code == 200
+    assert response.json()["results"][0]["architecture"] == "x64"
+
+
+def test_all_azure_images_with_query_combination():
+    response = client.get(
+        "/azure"
+        + "?urn=redhat-rhel:rh-rhel:rh-rhel7:7.9.2023062711"
+        + "&version=7.9.2023062711"
+        + "&arch=x64"
+    )
+    assert response.status_code == 200
+    assert len(response.json()["results"]) == 1
+    assert (
+        response.json()["results"][0]["urn"]
+        == "redhat-rhel:rh-rhel:rh-rhel7:7.9.2023062711"
+    )
+    assert response.json()["results"][0]["version"] == "7.9.2023062711"
+    assert response.json()["results"][0]["architecture"] == "x64"
+
+
+def test_all_azure_images_with_query_combination_no_match():
+    response = client.get(
+        "/azure"
+        + "?urn=rhel-does-not-exist:11.4:11.4.0"
+        + "&version=11.4.0"
+        + "&architecture=arm64"
+    )
+    assert response.status_code == 200
+    assert len(response.json()["results"]) == 0
+
+
 @patch("cid.crud.latest_azure_image")
 def test_latest_azure_image(mock_azure):
     mock_azure.return_value = {
