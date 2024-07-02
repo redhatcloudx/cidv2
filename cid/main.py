@@ -39,9 +39,11 @@ def all_aws_images(
     version: Optional[str] = None,
     name: Optional[str] = None,
     region: Optional[str] = None,
-) -> list:
-    result = crud.find_aws_images(db, arch, version, name, region)
-    return list(jsonable_encoder(result))
+    page: int = 1,
+    page_size: int = 100,
+) -> dict:
+    result = crud.find_aws_images(db, arch, version, name, region, page, page_size)
+    return dict(jsonable_encoder(result))
 
 
 @app.get("/aws/latest")

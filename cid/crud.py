@@ -7,6 +7,7 @@ from dateutil import parser
 from packaging.version import Version
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
+from sqlalchemy.orm.query import Query
 
 from cid.config import CLOUD_PROVIDERS
 from cid.database import engine
@@ -376,18 +377,22 @@ def find_aws_images(
     version: Optional[str] = None,
     name: Optional[str] = None,
     region: Optional[str] = None,
-) -> list:
-    """Return all AWS images that match the given criteria.
+    page: int = 1,
+    page_size: int = 100,
+) -> dict:
+    """Return paginated AWS images that match the given criteria.
 
     Args:
-        db (Session): database session
-        arch (Optional[str]): architecture to search
-        version (Optional[str]): RHEL version to search
-        name (Optional[str]): image name to search
-        region (Optional[str]): AWS region to search
+      db (Session): database session
+      arch (Optional[str]): architecture to search
+      version (Optional[str]): RHEL version to search
+      name (Optional[str]): image name to search
+      region (Optional[str]): AWS region to search
+      page (int): page number
+      page_size (int): number of images per page
 
     Returns:
-        list: list of images that match the given criteria
+      list: list of images that match the given criteria
     """
     query = db.query(AwsImage).order_by(AwsImage.creationDate.desc())
 
@@ -400,4 +405,39 @@ def find_aws_images(
     if region:
         query = query.filter(AwsImage.region == region)
 
-    return query.all()
+    return paginate(query, page, page_size)
+
+
+def paginate(
+    query: Query,
+    page: int = 1,
+    page_size: int = 100,
+) -> dict:
+    """Paginate a query and return the results.
+
+    Args:
+      query: SQLAlchemy query object
+      page (int): page number
+      page_size (int): number of items per page
+
+    Returns:
+      dict: paginated results
+    """
+    if page < 1:
+        page = 1
+
+    if page_size < 1:
+        page_size = 1
+
+    total_count = query.count()
+    total_pages = (total_count + page_size - 1) // page_size
+
+    results = query.limit(page_size).offset((page - 1) * page_size).all()
+
+    return {
+        "results": results,
+        "page": page,
+        "page_size": page_size,
+        "total_count": total_count,
+        "total_pages": total_pages,
+    }
