@@ -63,6 +63,19 @@ def match_aws_image(image_id: str, db: Session = Depends(get_db)) -> dict:  # no
     return result
 
 
+@app.get("/azure")
+def all_azure_images(
+    db: Session = Depends(get_db),  # noqa: B008
+    arch: Optional[str] = None,
+    version: Optional[str] = None,
+    urn: Optional[str] = None,
+    page: int = 1,
+    page_size: int = 100,
+) -> dict:
+    result = crud.find_azure_images(db, arch, version, urn, page, page_size)
+    return dict(jsonable_encoder(result))
+
+
 @app.get("/azure/latest")
 def latest_azure_image(
     db: Session = Depends(get_db),  # noqa: B008

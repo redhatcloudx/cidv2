@@ -408,6 +408,39 @@ def find_aws_images(
     return paginate(query, page, page_size)
 
 
+def find_azure_images(
+    db: Session,
+    arch: Optional[str] = None,
+    version: Optional[str] = None,
+    urn: Optional[str] = None,
+    page: int = 1,
+    page_size: int = 100,
+) -> dict:
+    """Return all Azure images that match the given criteria.
+
+    Args:
+        db (Session): database session
+        arch (Optional[str]): architecture to search
+        version (Optional[str]): RHEL version to search
+        urn (Optional[str]): image urn to search
+        page (int): page number
+        page_size (int): number of images per page
+
+    Returns:
+        list: list of images that match the given criteria
+    """
+    query = db.query(AzureImage).order_by(desc(AzureImage.version))
+
+    if arch:
+        query = query.filter(AzureImage.architecture == arch)
+    if version:
+        query = query.filter(AzureImage.version.contains(version))
+    if urn:
+        query = query.filter(AzureImage.urn.contains(urn))
+
+    return paginate(query, page, page_size)
+
+
 def paginate(
     query: Query,
     page: int = 1,
