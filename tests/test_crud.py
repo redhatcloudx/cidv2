@@ -794,3 +794,137 @@ def test_find_azure_images_paginated(db):
     assert result["page_size"] == 1
     assert result["total_count"] == 5
     assert result["total_pages"] == 5
+
+
+def find_google_images(db):
+    images = [
+        GoogleImage(
+            id="id-a",
+            arch="X86_64",
+            name="test_image_1a",
+            version="1.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+        GoogleImage(
+            id="id-b",
+            arch="X86_64",
+            name="test_image_2a",
+            version="2.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+        GoogleImage(
+            id="id-c",
+            arch="ARM64",
+            name="test_image_1b",
+            version="1.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+        GoogleImage(
+            id="id-d",
+            arch="ARM64",
+            name="test_image_2b",
+            version="2.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.find_google_images(db, None, None, None, None, None)
+    assert len(result["results"]) == 4
+
+    result = crud.find_google_images(db, "X86_64", None, None, None, None)
+    assert len(result["results"]) == 2
+
+    result = crud.find_google_images(db, None, "2.0", None, None, None)
+    assert len(result["results"]) == 2
+
+    result = crud.find_google_images(db, None, None, "test_image_1b", None, None)
+    assert len(result["results"]) == 1
+
+    result = crud.find_google_images(db, None, None, None, "test_image_1b", None)
+    assert len(result["results"]) == 1
+
+
+def test_find_google_images_paginated(db):
+    images = [
+        GoogleImage(
+            id="id-a",
+            arch="X86_64",
+            name="test_image_1a",
+            version="1.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+        GoogleImage(
+            id="id-b",
+            arch="X86_64",
+            name="test_image_2a",
+            version="2.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+        GoogleImage(
+            id="id-c",
+            arch="ARM64",
+            name="test_image_1b",
+            version="1.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+        GoogleImage(
+            id="id-d",
+            arch="ARM64",
+            name="test_image_2b",
+            version="2.0",
+            creationTimestamp=datetime.strptime("2022-01-01", "%Y-%m-%d").date(),
+        ),
+    ]
+    db.add_all(images)
+    db.commit()
+
+    result = crud.find_google_images(db, None, None, None, None)
+    assert len(result["results"]) == 4
+    assert result["page"] == 1
+    assert result["page_size"] == 100
+    assert result["total_count"] == 4
+    assert result["total_pages"] == 1
+
+    result = crud.find_google_images(db, None, None, None, None, 1, 1)
+    assert len(result["results"]) == 1
+    assert result["page"] == 1
+    assert result["page_size"] == 1
+    assert result["total_count"] == 4
+    assert result["total_pages"] == 4
+
+    result = crud.find_google_images(db, None, None, None, None, 2, 1)
+    assert len(result["results"]) == 1
+    assert result["page"] == 2
+    assert result["page_size"] == 1
+    assert result["total_count"] == 4
+    assert result["total_pages"] == 4
+
+    result = crud.find_google_images(db, None, None, None, None, 6, 1)
+    assert len(result["results"]) == 0
+    assert result["page"] == 6
+    assert result["page_size"] == 1
+    assert result["total_count"] == 4
+    assert result["total_pages"] == 4
+
+    result = crud.find_google_images(db, None, None, None, None, 1, 1000)
+    assert len(result["results"]) == 4
+    assert result["page"] == 1
+    assert result["page_size"] == 1000
+    assert result["total_count"] == 4
+    assert result["total_pages"] == 1
+
+    result = crud.find_google_images(db, None, None, None, None, -1, 10)
+    assert len(result["results"]) == 4
+    assert result["page"] == 1
+    assert result["page_size"] == 10
+    assert result["total_count"] == 4
+    assert result["total_pages"] == 1
+
+    result = crud.find_google_images(db, None, None, None, None, 1, -10)
+    assert len(result["results"]) == 1
+    assert result["page"] == 1
+    assert result["page_size"] == 1
+    assert result["total_count"] == 4
+    assert result["total_pages"] == 4

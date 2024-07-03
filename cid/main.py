@@ -102,6 +102,20 @@ def azure_versions(db: Session = Depends(get_db)) -> list:  # noqa: B008
     return crud.find_available_azure_versions(db)
 
 
+@app.get("/google")
+def all_google_images(
+    db: Session = Depends(get_db),  # noqa: B008
+    arch: Optional[str] = None,
+    version: Optional[str] = None,
+    name: Optional[str] = None,
+    family: Optional[str] = None,
+    page: int = 1,
+    page_size: int = 100,
+) -> dict:
+    result = crud.find_google_images(db, arch, version, name, family, page, page_size)
+    return dict(jsonable_encoder(result))
+
+
 @app.get("/google/versions")
 def google_versions(db: Session = Depends(get_db)) -> list:  # noqa: B008
     return crud.find_available_google_versions(db)
