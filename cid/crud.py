@@ -377,6 +377,7 @@ def find_aws_images(
     version: Optional[str] = None,
     name: Optional[str] = None,
     region: Optional[str] = None,
+    image_id: Optional[str] = None,
     page: int = 1,
     page_size: int = 100,
 ) -> dict:
@@ -388,11 +389,12 @@ def find_aws_images(
       version (Optional[str]): RHEL version to search
       name (Optional[str]): image name to search
       region (Optional[str]): AWS region to search
+      image_id (Optional[str]): image ID to search
       page (int): page number
       page_size (int): number of images per page
 
     Returns:
-      list: list of images that match the given criteria
+      dict: dict of images that match the given criteria
     """
     query = db.query(AwsImage).order_by(AwsImage.creationDate.desc())
 
@@ -404,6 +406,8 @@ def find_aws_images(
         query = query.filter(AwsImage.name.contains(name))
     if region:
         query = query.filter(AwsImage.region == region)
+    if image_id:
+        query = query.filter(AwsImage.id == image_id)
 
     return paginate(query, page, page_size)
 

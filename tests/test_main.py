@@ -167,6 +167,15 @@ def test_all_aws_images_with_query_name():
     )
 
 
+def test_all_aws_images_with_query_image_id():
+    response = client.get("/aws?image_id=ami-08a20c15f394e5531")
+    assert response.status_code == 200
+    assert (
+        response.json()["results"][0]["name"]
+        == "RHEL_HA-9.4.0_HVM-20240605-x86_64-82-Hourly2-GP3"
+    )
+
+
 def test_all_aws_images_with_query_combination():
     response = client.get(
         "/aws"
@@ -174,6 +183,7 @@ def test_all_aws_images_with_query_combination():
         + "&region=af-south-1"
         + "&version=9.4.0"
         + "&arch=x86_64"
+        + "&image_id=ami-08a20c15f394e5531"
     )
     assert response.status_code == 200
     assert len(response.json()["results"]) == 1
@@ -196,12 +206,6 @@ def test_all_aws_images_with_query_combination_no_match():
     )
     assert response.status_code == 200
     assert len(response.json()["results"]) == 0
-
-
-def test_single_aws_image():
-    response = client.get("/aws/image/ami-08a20c15f394e5531")
-    assert response.status_code == 200
-    assert response.json()["name"] == "RHEL_HA-9.4.0_HVM-20240605-x86_64-82-Hourly2-GP3"
 
 
 def test_match_aws_image():

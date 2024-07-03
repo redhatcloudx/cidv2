@@ -11,7 +11,6 @@ from sqlalchemy.orm import Session
 from cid import crud
 from cid.config import ENVIRONMENT
 from cid.database import SessionLocal
-from cid.models import AwsImage
 
 log = logging.getLogger(__name__)
 
@@ -39,22 +38,19 @@ def all_aws_images(
     version: Optional[str] = None,
     name: Optional[str] = None,
     region: Optional[str] = None,
+    image_id: Optional[str] = None,
     page: int = 1,
     page_size: int = 100,
 ) -> dict:
-    result = crud.find_aws_images(db, arch, version, name, region, page, page_size)
+    result = crud.find_aws_images(
+        db, arch, version, name, region, image_id, page, page_size
+    )
     return dict(jsonable_encoder(result))
 
 
 @app.get("/aws/latest")
 def latest_aws_image(db: Session = Depends(get_db), arch: Optional[str] = None) -> dict:  # noqa: B008
     return crud.latest_aws_image(db, arch)
-
-
-@app.get("/aws/image/{image_id}")
-def single_aws_image(image_id: str, db: Session = Depends(get_db)) -> dict:  # noqa: B008
-    result = db.query(AwsImage).filter(AwsImage.id == image_id).first()
-    return dict(jsonable_encoder(result))
 
 
 @app.get("/aws/match/{image_id}")

@@ -521,16 +521,16 @@ def test_find_aws_images(db):
     db.add_all(images)
     db.commit()
 
-    result = crud.find_aws_images(db, None, None, None, None)
+    result = crud.find_aws_images(db, None, None, None, None, None)
     assert len(result["results"]) == 5
 
-    result = crud.find_aws_images(db, "arm64", None, None, None)
+    result = crud.find_aws_images(db, "arm64", None, None, None, None)
     assert len(result["results"]) == 1
     assert result["results"][0].name == "RHEL-9.5.0"
     assert result["results"][0].arch == "arm64"
     assert result["results"][0].region == "us-west-2"
 
-    result = crud.find_aws_images(db, None, "9.5.0", None, None)
+    result = crud.find_aws_images(db, None, "9.5.0", None, None, None)
     assert len(result["results"]) == 2
     assert result["results"][0].name == "RHEL-9.5.0"
     assert result["results"][0].arch == "x86_64"
@@ -539,14 +539,17 @@ def test_find_aws_images(db):
     assert result["results"][1].arch == "arm64"
     assert result["results"][1].region == "us-west-2"
 
-    result = crud.find_aws_images(db, None, None, "10.0.0", None)
+    result = crud.find_aws_images(db, None, None, "10.0.0", None, None)
     assert len(result["results"]) == 1
     assert result["results"][0].name == "RHEL-10.0.0"
     assert result["results"][0].arch == "x86_64"
     assert result["results"][0].region == "us-west-2"
 
-    result = crud.find_aws_images(db, None, None, None, "us-west-1")
+    result = crud.find_aws_images(db, None, None, None, "us-west-1", None)
     assert len(result["results"]) == 3
+
+    result = crud.find_aws_images(db, None, None, None, None, "ami-a")
+    assert len(result["results"]) == 1
 
 
 def test_find_aws_images_paginated(db):
@@ -590,49 +593,49 @@ def test_find_aws_images_paginated(db):
     db.add_all(images)
     db.commit()
 
-    result = crud.find_aws_images(db, None, None, None, None)
+    result = crud.find_aws_images(db, None, None, None, None, None)
     assert len(result["results"]) == 5
     assert result["page"] == 1
     assert result["page_size"] == 100
     assert result["total_count"] == 5
     assert result["total_pages"] == 1
 
-    result = crud.find_aws_images(db, None, None, None, None, 1, 1)
+    result = crud.find_aws_images(db, None, None, None, None, None, 1, 1)
     assert len(result["results"]) == 1
     assert result["page"] == 1
     assert result["page_size"] == 1
     assert result["total_count"] == 5
     assert result["total_pages"] == 5
 
-    result = crud.find_aws_images(db, None, None, None, None, 2, 1)
+    result = crud.find_aws_images(db, None, None, None, None, None, 2, 1)
     assert len(result["results"]) == 1
     assert result["page"] == 2
     assert result["page_size"] == 1
     assert result["total_count"] == 5
     assert result["total_pages"] == 5
 
-    result = crud.find_aws_images(db, None, None, None, None, 6, 1)
+    result = crud.find_aws_images(db, None, None, None, None, None, 6, 1)
     assert len(result["results"]) == 0
     assert result["page"] == 6
     assert result["page_size"] == 1
     assert result["total_count"] == 5
     assert result["total_pages"] == 5
 
-    result = crud.find_aws_images(db, None, None, None, None, 1, 1000)
+    result = crud.find_aws_images(db, None, None, None, None, None, 1, 1000)
     assert len(result["results"]) == 5
     assert result["page"] == 1
     assert result["page_size"] == 1000
     assert result["total_count"] == 5
     assert result["total_pages"] == 1
 
-    result = crud.find_aws_images(db, None, None, None, None, -1, 10)
+    result = crud.find_aws_images(db, None, None, None, None, None, -1, 10)
     assert len(result["results"]) == 5
     assert result["page"] == 1
     assert result["page_size"] == 10
     assert result["total_count"] == 5
     assert result["total_pages"] == 1
 
-    result = crud.find_aws_images(db, None, None, None, None, 1, -10)
+    result = crud.find_aws_images(db, None, None, None, None, None, 1, -10)
     assert len(result["results"]) == 1
     assert result["page"] == 1
     assert result["page_size"] == 1
