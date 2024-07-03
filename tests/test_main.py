@@ -293,6 +293,53 @@ def test_latest_azure_image(mock_azure):
     assert result["urn"] == "urn-b"
 
 
+def test_all_google_images():
+    response = client.get("/google")
+    assert response.status_code == 200
+    assert len(response.json()["results"]) == 4
+    assert response.json()["page"] == 1
+    assert response.json()["page_size"] == 100
+    assert response.json()["total_count"] == 4
+    assert response.json()["total_pages"] == 1
+
+
+def test_all_google_images_with_query():
+    response = client.get("/google?version=7")
+    assert response.status_code == 200
+    assert response.json()["results"][0]["version"] == "7"
+
+
+def test_all_google_images_with_query_arch():
+    response = client.get("/google?arch=X86_64")
+    assert response.status_code == 200
+    assert response.json()["results"][0]["arch"] == "X86_64"
+
+
+def test_all_google_images_with_query_name():
+    response = client.get("/google?name=rhel-7-v20240611")
+    assert response.status_code == 200
+    assert response.json()["results"][0]["name"] == "rhel-7-v20240611"
+
+
+def test_all_google_images_with_query_combination():
+    response = client.get(
+        "/google" + "?name=rhel-7-v20240611" + "&version=7" + "&arch=X86_64"
+    )
+    assert response.status_code == 200
+    assert len(response.json()["results"]) == 1
+    assert response.json()["results"][0]["name"] == "rhel-7-v20240611"
+    assert response.json()["results"][0]["version"] == "7"
+    assert response.json()["results"][0]["arch"] == "X86_64"
+
+
+def test_all_google_images_with_query_combination_no_match():
+    response = client.get(
+        "/google" + "?name=does-not-exist" + "&version=7" + "&arch=X86_64"
+    )
+    assert response.status_code == 200
+    assert len(response.json()["results"]) == 0
+
+
 @patch("cid.crud.latest_google_image")
 def test_latest_google_image(mock_google):
     mock_google.return_value = {

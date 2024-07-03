@@ -445,6 +445,43 @@ def find_azure_images(
     return paginate(query, page, page_size)
 
 
+def find_google_images(
+    db: Session,
+    arch: Optional[str] = None,
+    version: Optional[str] = None,
+    name: Optional[str] = None,
+    family: Optional[str] = None,
+    page: int = 1,
+    page_size: int = 100,
+) -> dict:
+    """Return paginated Google images that match the given criteria.
+
+    Args:
+      db (Session): database session
+      arch (Optional[str]): architecture to search
+      version (Optional[str]): RHEL version to search
+      name (Optional[str]): image name to search
+      family (Optional[str]): Google image family to search
+      page (int): page number
+      page_size (int): number of images per page
+
+    Returns:
+      dict: paginated results
+    """
+    query = db.query(GoogleImage).order_by(GoogleImage.creationTimestamp.desc())
+
+    if arch:
+        query = query.filter(GoogleImage.arch == arch)
+    if version:
+        query = query.filter(GoogleImage.version == version)
+    if name:
+        query = query.filter(GoogleImage.name.contains(name))
+    if family:
+        query = query.filter(GoogleImage.family == family)
+
+    return paginate(query, page, page_size)
+
+
 def paginate(
     query: Query,
     page: int = 1,
