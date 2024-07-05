@@ -2,7 +2,7 @@
 
 import logging
 
-from cid.crud import update_image_data
+from cid.crud import update_image_data, update_last_updated
 from cid.database import SessionLocal
 
 logger = logging.getLogger(__name__)
@@ -14,5 +14,6 @@ def populate_db() -> None:
 
     db = SessionLocal()
     update_image_data(db)
+    update_last_updated(db)
 
     logger.info("Database population complete. Exiting.")

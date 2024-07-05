@@ -1,9 +1,9 @@
 import logging
 import threading
 from time import sleep
-from typing import Generator, Optional
+from typing import Any, Generator, Optional
 
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.encoders import jsonable_encoder
 from schedule import every, repeat, run_pending
 from sqlalchemy.orm import Session
@@ -26,9 +26,38 @@ def get_db() -> Generator:
         db.close()
 
 
+def check_endpoint_status(
+    db: Session, endpoint_func: Any, *args: str, **kwargs: int
+) -> str:
+    try:
+        data = endpoint_func(db, *args, **kwargs)
+        if data is None:
+            return "down"
+        else:
+            return "running"
+    except HTTPException:
+        return "down"
+
+
 @app.get("/")
-def read_root() -> dict:
-    return {"Hello": "World"}
+def read_root(request: Request, db: Session = Depends(get_db)) -> dict:  # noqa: B008
+    aws_status = check_endpoint_status(db, crud.find_aws_images, page=1, page_size=1)
+    google_status = check_endpoint_status(
+        db, crud.find_google_images, page=1, page_size=1
+    )
+    azure_status = check_endpoint_status(
+        db, crud.find_azure_images, page=1, page_size=1
+    )
+    last_update = crud.get_last_update(db)
+    return {
+        "status": {
+            f"{request.base_url}aws": aws_status,
+            f"{request.base_url}google": google_status,
+            f"{request.base_url}azure": azure_status,
+        },
+        "docs": f"{request.base_url}docs",
+        "last_update": last_update,
+    }
 
 
 @app.get("/aws")
@@ -122,6 +151,7 @@ def self_update_image_data() -> None:
     """Update the database with new image data."""
     db = SessionLocal()
     crud.update_image_data(db)
+    crud.update_last_updated(db)
 
 
 def run_schedule() -> None:

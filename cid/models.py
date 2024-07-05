@@ -1,6 +1,6 @@
 """Database models."""
 
-from sqlalchemy import JSON, Column, DateTime, Integer, String
+from sqlalchemy import JSON, Column, DateTime, Integer, String, func
 
 from cid.database import Base
 
@@ -57,3 +57,10 @@ class AzureImage(Base):
     sku = Column(String)
     urn = Column(String)
     version = Column(String)
+
+
+class LastUpdate(Base):
+    __tablename__ = "last_update"
+
+    id = Column(Integer, primary_key=True)
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
