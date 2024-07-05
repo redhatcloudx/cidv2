@@ -7,6 +7,15 @@ from cid import crud
 from cid.models import AwsImage, AzureImage, GoogleImage
 
 
+def test_last_update(db):
+    result = crud.get_last_update(db)
+    assert result == ""
+
+    crud.update_last_updated(db)
+    result = crud.get_last_update(db)
+    assert datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
+
+
 def test_latest_aws_image_no_images(db):
     result = crud.latest_aws_image(db, None)
     assert result == {"error": "No images found for AWS.", "code": 404}

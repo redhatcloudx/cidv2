@@ -3,13 +3,14 @@
 import json
 from unittest.mock import patch
 
+from fastapi import HTTPException
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from cid import crud
 from cid.database import Base
-from cid.main import app, get_db
+from cid.main import app, check_endpoint_status, get_db
 
 engine = create_engine(
     "sqlite:///:memory:", connect_args={"check_same_thread": False}, echo=False
@@ -48,11 +49,41 @@ app.dependency_overrides[get_db] = override_get_db
 client = TestClient(app)
 
 
+def test_check_endpoint_status_running():
+    def mock_endpoint_func(db, *args, **kwargs):
+        return "data"
+
+    result = check_endpoint_status(None, mock_endpoint_func)
+    assert result == "running"
+
+
+def test_check_endpoint_status_down():
+    def mock_endpoint_func(db, *args, **kwargs):
+        return None
+
+    result = check_endpoint_status(None, mock_endpoint_func)
+    assert result == "down"
+
+
+def test_check_endpoint_status_exception():
+    def mock_endpoint_func(db, *args, **kwargs):
+        raise HTTPException(status_code=500)
+
+    result = check_endpoint_status(None, mock_endpoint_func)
+    assert result == "down"
+
+
 def test_read_root():
     """Test the read_root endpoint."""
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"Hello": "World"}
+    assert response.json()["status"] == {
+        "http://testserver/aws": "running",
+        "http://testserver/google": "running",
+        "http://testserver/azure": "running",
+    }
+    assert "docs" in response.json()
+    assert "last_update" in response.json()
 
 
 @patch("cid.crud.latest_aws_image")
