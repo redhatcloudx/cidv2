@@ -5,13 +5,13 @@ from typing import Any, Optional
 
 from dateutil import parser
 from packaging.version import Version
-from sqlalchemy import desc
+from sqlalchemy import desc, func
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.query import Query
 
 from cid.config import CLOUD_PROVIDERS
 from cid.database import engine
-from cid.models import AwsImage, AzureImage, GoogleImage
+from cid.models import AwsImage, AzureImage, GoogleImage, LastUpdate
 from cid.utils import (
     InvalidCloudProvider,
     extract_aws_version,
@@ -234,6 +234,23 @@ def import_google_images(db: Session, images: list) -> None:
 
     db.add_all(import_queue)
     db.commit()
+
+
+def update_last_updated(db: Session) -> None:
+    last_update = db.query(LastUpdate).first()
+    if last_update is None:
+        last_update = LastUpdate()
+        db.add(last_update)
+    else:
+        last_update.updated_at = func.now()
+    db.commit()
+
+
+def get_last_update(db: Session) -> str:
+    last_update = db.query(LastUpdate).first()
+    if last_update is None:
+        return ""
+    return str(last_update.updated_at)
 
 
 def update_image_data(db: Session) -> None:
