@@ -9,7 +9,7 @@ ENVIRONMENT = os.getenv("ENVIRONMENT", "testing")
 DATABASE_URLS = {
     # NOTE(mhayden): The four slashes in the production database path ensures
     # that an absolute path is used.
-    "production": "sqlite:////cid.db",
+    "production": "sqlite:////code/cid.db",
     # In-memory databases are much faster for testing.
     "testing": "sqlite:///:memory:",
 }
