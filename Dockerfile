@@ -23,4 +23,4 @@ RUN poetry config virtualenvs.create false
 RUN poetry install --no-interaction --no-ansi --no-root --only=main
 
 RUN env ENVIRONMENT=production poetry run populatedb
-CMD ["poetry", "run", "uvicorn", "--host", "0.0.0.0", "--port", "80", "cid.main:app"]
+CMD ["poetry", "run", "uvicorn", "--host", "0.0.0.0", "--port", "8080", "cid.main:app"]
