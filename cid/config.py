@@ -23,3 +23,8 @@ GOOGLE_IMAGE_DATA = f"{IMAGE_DATA_BASE_URL}/google/global.json"
 
 # Supported cloud providers.
 CLOUD_PROVIDERS = ["aws", "azure", "google"]
+
+# Allowed origins for CORS.
+CORS_ORIGINS = [
+    "https://cloudx-cidv2.fly.dev/",
+]
