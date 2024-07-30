@@ -5,17 +5,27 @@ from typing import Any, Generator, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.encoders import jsonable_encoder
+from fastapi.middleware.cors import CORSMiddleware
 from schedule import every, repeat, run_pending
 from sqlalchemy.orm import Session
 
 from cid import crud
-from cid.config import ENVIRONMENT
+from cid.config import CORS_ORIGINS, ENVIRONMENT
 from cid.database import SessionLocal
 
 log = logging.getLogger(__name__)
 
 
 app = FastAPI()
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=CORS_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["GET"],
+    allow_headers=["*"],
+)
 
 
 def get_db() -> Generator:
