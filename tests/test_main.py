@@ -78,9 +78,9 @@ def test_read_root():
     response = client.get("/")
     assert response.status_code == 200
     assert response.json()["status"] == {
-        "http://testserver/aws": "running",
-        "http://testserver/google": "running",
-        "http://testserver/azure": "running",
+        "https://testserver/aws": "running",
+        "https://testserver/google": "running",
+        "https://testserver/azure": "running",
     }
     assert "docs" in response.json()
     assert "last_update" in response.json()

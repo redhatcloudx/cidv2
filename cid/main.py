@@ -79,13 +79,18 @@ def status(request: Request, db: Session = Depends(get_db)) -> dict:  # noqa: B0
         db, crud.find_azure_images, page=1, page_size=1
     )
     last_update = crud.get_last_update(db)
+
+    # In some situations, the base_url will start with http:// instead of https:// and
+    # we don't want that.
+    secure_base_url = str(request.base_url).replace("http://", "https://")
+
     return {
         "status": {
-            f"{request.base_url}aws": aws_status,
-            f"{request.base_url}google": google_status,
-            f"{request.base_url}azure": azure_status,
+            f"{secure_base_url}aws": aws_status,
+            f"{secure_base_url}google": google_status,
+            f"{secure_base_url}azure": azure_status,
         },
-        "docs": f"{request.base_url}docs",
+        "docs": f"{secure_base_url}docs",
         "last_update": last_update,
     }
 
