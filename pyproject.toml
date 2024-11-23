@@ -19,7 +19,7 @@ packaging = "^24.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
-pytest-cov = "^5.0.0"
+pytest-cov = "^6.0.0"
 deptry = "^0.20.0"
 mypy = "^1.10.0"
 pre-commit = "^4.0.0"
