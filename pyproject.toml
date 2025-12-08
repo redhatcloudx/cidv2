@@ -18,7 +18,7 @@ python-dateutil = "^2.9.0.post0"
 packaging = "^24.2"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.3.5"
+pytest = "^9.0.0"
 pytest-cov = "^6.0.0"
 deptry = "^0.20.0"
 mypy = "^1.15.0"
